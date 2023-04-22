@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
@@ -113,7 +114,7 @@ public class RocketCommand implements CommandExecutor {
 
                     // создаём "перехватчик" ввода (в нашем случае, проверяем интерактивно пароль)
                     ConversationFactory cf = new ConversationFactory(AdventBombs.getInstance());
-                    org.bukkit.conversations.Conversation conv = cf
+                    Conversation conv = cf
                             .withFirstPrompt(new PassConversation(sender, rocketType, cordsX, cordsZ, rocketPower, passwordManager))
                             .withLocalEcho(false)
                             .withTimeout(120)
