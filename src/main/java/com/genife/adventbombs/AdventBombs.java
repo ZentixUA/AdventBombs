@@ -33,9 +33,9 @@ public class AdventBombs extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // инициализируем менеджер паролей
+        // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
-        // инициализируем менеджер сирен
+        // Инициализируем менеджер сирен
         alarmManager = new AlarmManager(this);
 
         this.getCommand("rocket").setExecutor(new NuclearCommand());
