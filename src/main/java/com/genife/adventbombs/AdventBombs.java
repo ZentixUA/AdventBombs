@@ -62,6 +62,7 @@ public class AdventBombs extends JavaPlugin {
     public PasswordManager getPasswordManager() {
         return passwordManager;
     }
+
     public AlarmManager getAlarmManager() {
         return alarmManager;
     }
