@@ -58,11 +58,12 @@ public class AdventBombs extends JavaPlugin {
         // запускаем задачу, которая каждую секунду актуализирует данные (сирены, списки блокировок и т.д)
         new DataActualize().runTaskTimer(this, 40L, 20L);
     }
-    public PasswordManager getPasswordManager() {
-        return passwordManager;
-    }
+
     public AlarmManager getAlarmManager() {
         return alarmManager;
     }
 
+    public PasswordManager getPasswordManager() {
+        return passwordManager;
+    }
 }
