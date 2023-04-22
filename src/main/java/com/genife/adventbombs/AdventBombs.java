@@ -38,7 +38,9 @@ public class AdventBombs extends JavaPlugin {
         // Инициализируем менеджер сирен
         alarmManager = new AlarmManager(this);
 
+        //noinspection DataFlowIssue
         this.getCommand("rocket").setExecutor(new RocketCommand());
+        //noinspection DataFlowIssue
         this.getCommand("rocket").setTabCompleter(new RocketCompleter());
 
         // берём значения из конфига / создаём его

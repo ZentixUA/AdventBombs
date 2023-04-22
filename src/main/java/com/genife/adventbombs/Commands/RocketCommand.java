@@ -114,7 +114,7 @@ public class RocketCommand implements CommandExecutor {
                     // создаём "перехватчик" ввода (в нашем случае, проверяем интерактивно пароль)
                     ConversationFactory cf = new ConversationFactory(AdventBombs.getInstance());
                     org.bukkit.conversations.Conversation conv = cf
-                            .withFirstPrompt(new Conversation(sender, rocketType, cordsX, cordsZ, rocketPower, passwordManager))
+                            .withFirstPrompt(new PassConversation(sender, rocketType, cordsX, cordsZ, rocketPower, passwordManager))
                             .withLocalEcho(false)
                             .withTimeout(120)
                             .buildConversation((Player) sender);

@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class Conversation extends StringPrompt {
+public class PassConversation extends StringPrompt {
     private final Player rocketSender;
     private final String rocketType;
     private final int cordsX;
@@ -27,7 +27,7 @@ public class Conversation extends StringPrompt {
     private final AdventBombs instance = AdventBombs.getInstance();
     private final PasswordManager passwordManager;
 
-    public Conversation(CommandSender sender, String rocketType, int cordsX, int cordsZ, int explosionPower, PasswordManager passwordManager) {
+    public PassConversation(CommandSender sender, String rocketType, int cordsX, int cordsZ, int explosionPower, PasswordManager passwordManager) {
         this.rocketSender = (Player) sender;
         this.rocketType = rocketType;
         this.cordsX = cordsX;
