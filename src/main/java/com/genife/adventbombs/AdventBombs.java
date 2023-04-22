@@ -59,11 +59,11 @@ public class AdventBombs extends JavaPlugin {
         new DataActualize().runTaskTimer(this, 40L, 20L);
     }
 
+    public PasswordManager getPasswordManager() {
+        return passwordManager;
+    }
     public AlarmManager getAlarmManager() {
         return alarmManager;
     }
 
-    public PasswordManager getPasswordManager() {
-        return passwordManager;
-    }
 }
