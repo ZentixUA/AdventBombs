@@ -120,7 +120,7 @@ public class RocketCommand implements CommandExecutor {
                             .withTimeout(120)
                             .buildConversation((Player) sender);
 
-                    // помечаем, что у игрока сейчас запущен Conversation
+                    // помечаем, что у игрока сейчас запущен PassConversation
                     playersConversations.put((Player) sender, true);
 
                     // Действия после завершения чата
