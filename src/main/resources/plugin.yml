@@ -1,0 +1,7 @@
+name: AdventBombs
+version: '${project.version}'
+main: com.genife.adventbombs.AdventBombs
+api-version: 1.19
+commands:
+  rocket:
+    description: "Запускает ракету по координатам."
