@@ -8,7 +8,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
@@ -17,7 +16,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class NuclearCommand implements CommandExecutor {
+public class RocketCommand implements CommandExecutor {
     private static final String NO_OP = "§3[AdventBombs] §cУ тебя нет прав на использование этой команды!";
     private static final String ONLY_IN_GAME = "§3[AdventBombs] §cЭту команду следует использовать в игре.";
     private static final String REMOVE_FROM_LIST_INCORRECT_TYPING = "§3[AdventBombs] §fНеверный ввод. /rocket unblock [никнейм]";
@@ -114,8 +113,8 @@ public class NuclearCommand implements CommandExecutor {
 
                     // создаём "перехватчик" ввода (в нашем случае, проверяем интерактивно пароль)
                     ConversationFactory cf = new ConversationFactory(AdventBombs.getInstance());
-                    Conversation conv = cf
-                            .withFirstPrompt(new ConvPrompt(sender, rocketType, cordsX, cordsZ, rocketPower, passwordManager))
+                    org.bukkit.conversations.Conversation conv = cf
+                            .withFirstPrompt(new Conversation(sender, rocketType, cordsX, cordsZ, rocketPower, passwordManager))
                             .withLocalEcho(false)
                             .withTimeout(120)
                             .buildConversation((Player) sender);

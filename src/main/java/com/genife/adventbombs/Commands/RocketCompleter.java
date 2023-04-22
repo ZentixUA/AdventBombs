@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NuclearCompleter implements TabCompleter {
+public class RocketCompleter implements TabCompleter {
     private final PasswordManager passwordManager = AdventBombs.getInstance().getPasswordManager();
 
     @Override

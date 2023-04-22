@@ -1,7 +1,7 @@
 package com.genife.adventbombs;
 
-import com.genife.adventbombs.Commands.NuclearCommand;
-import com.genife.adventbombs.Commands.NuclearCompleter;
+import com.genife.adventbombs.Commands.RocketCommand;
+import com.genife.adventbombs.Commands.RocketCompleter;
 import com.genife.adventbombs.Events.AlarmEvents;
 import com.genife.adventbombs.Managers.AlarmManager;
 import com.genife.adventbombs.Managers.PasswordManager;
@@ -38,8 +38,8 @@ public class AdventBombs extends JavaPlugin {
         // Инициализируем менеджер сирен
         alarmManager = new AlarmManager(this);
 
-        this.getCommand("rocket").setExecutor(new NuclearCommand());
-        this.getCommand("rocket").setTabCompleter(new NuclearCompleter());
+        this.getCommand("rocket").setExecutor(new RocketCommand());
+        this.getCommand("rocket").setTabCompleter(new RocketCompleter());
 
         // берём значения из конфига / создаём его
         FileConfiguration config = getConfig();
