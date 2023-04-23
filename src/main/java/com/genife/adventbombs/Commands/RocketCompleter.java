@@ -20,7 +20,7 @@ public class RocketCompleter implements TabCompleter {
 
         // Если вводится первый аргумент команды
         if (args.length == 1) {
-            completions.addAll(Arrays.asList("nuclear", "sculk", "unblock"));
+            completions.addAll(Arrays.asList("nuclear", "sculk", "unblock", "reload"));
             return completions;
         }
         // Если вводится второй аргумент команды

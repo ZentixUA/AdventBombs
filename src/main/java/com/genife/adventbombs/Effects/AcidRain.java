@@ -44,7 +44,7 @@ public class AcidRain extends BukkitRunnable {
             }
             taskIds.clear();
         } else {
-            Bukkit.broadcast(Component.text(ACID_RAIN_START_MESSAGE.replace("{world}", world.getName())));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ACID_RAIN_START_MESSAGE.replace("{world}", world.getName())));
         }
 
         // ставим нужную погоду
@@ -100,7 +100,7 @@ public class AcidRain extends BukkitRunnable {
         // останавливаем кислотный дождь, ибо он "вылил свою душу"
         @Override
         public void run() {
-            Bukkit.broadcast(Component.text(ACID_RAIN_STOP_MESSAGE.replace("{world}", world.getName())));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ACID_RAIN_STOP_MESSAGE.replace("{world}", world.getName())));
 
             // Получаем список айдишников задач по миру (он тут как ключ)
             List<Integer> taskIds = acidRainTasks.get(world);

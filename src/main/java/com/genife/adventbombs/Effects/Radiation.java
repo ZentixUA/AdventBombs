@@ -35,7 +35,7 @@ public class Radiation extends BukkitRunnable {
 
         // Оповещаем игроков о начале радиации
         String cords = explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ();
-        Bukkit.broadcast(Component.text(RADIATION_START_MESSAGE.replace("{cords}", cords).replace("{world}", explosionCenter.getWorld().getName())));
+        Bukkit.broadcast(Component.text(MESSAGE_PREFIX + RADIATION_START_MESSAGE.replace("{cords}", cords).replace("{world}", explosionCenter.getWorld().getName())));
 
         // Создаем таск и запускаем его
         int radiationTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new RadiationEffect(explosionCenter, radiationRadius, explosionPower, radiationZone), 0L, 20L);
@@ -116,7 +116,7 @@ public class Radiation extends BukkitRunnable {
         public void run() {
             // Оповещаем игроков о конце радиации
             String cords = explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ();
-            Bukkit.broadcast(Component.text(RADIATION_STOP_MESSAGE.replace("{world}", explosionCenter.getWorld().getName()).replace("{cords}", cords)));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + RADIATION_STOP_MESSAGE.replace("{world}", explosionCenter.getWorld().getName()).replace("{cords}", cords)));
 
             radiationZone.remove(explosionCenter);
             // Отменяем задачу и очищаем зону

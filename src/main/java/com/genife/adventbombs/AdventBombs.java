@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdventBombs extends JavaPlugin {
     private static AdventBombs instance;
+    private ConfigManager configManager;
     private AlarmManager alarmManager;
     private PasswordManager passwordManager;
 
@@ -23,7 +24,7 @@ public class AdventBombs extends JavaPlugin {
     public void onEnable() {
         instance = this;
         // Инициализируем конфиг
-        new ConfigManager(this);
+        configManager = new ConfigManager(this);
         // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен
@@ -39,6 +40,10 @@ public class AdventBombs extends JavaPlugin {
 
         // запускаем задачу, которая каждую секунду актуализирует данные (сирены, списки блокировок и т.д)
         new DataActualize().runTaskTimer(this, 40L, 20L);
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
     public PasswordManager getPasswordManager() {

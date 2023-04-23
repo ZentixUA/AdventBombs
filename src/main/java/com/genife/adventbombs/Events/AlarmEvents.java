@@ -49,10 +49,10 @@ public class AlarmEvents implements Listener {
                     alarmManager.saveAlarms();
 
                     // отправляем сообщение
-                    player.sendMessage(ALARM_PLACE_MESSAGE);
+                    player.sendMessage(MESSAGE_PREFIX + ALARM_PLACE_MESSAGE);
                 } else {
                     // если сирена уже существует, отправляем предупреждение.
-                    player.sendMessage(ALREADY_PLACED_ALARM_MESSAGE);
+                    player.sendMessage(MESSAGE_PREFIX + ALREADY_PLACED_ALARM_MESSAGE);
                 }
             }
         }

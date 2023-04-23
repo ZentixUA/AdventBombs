@@ -43,14 +43,14 @@ public class PassConversation extends StringPrompt {
     @Override
     public String getPromptText(ConversationContext context) {
         rocketSender.playSound(rocketSender.getLocation(), ROCKET_CODE_TYPING_SOUND, SoundCategory.MASTER, 1.0f, 1.0f);
-        return PASS_ENTER_MESSAGE;
+        return MESSAGE_PREFIX + PASS_ENTER_MESSAGE;
     }
 
     @Override
     public Prompt acceptInput(ConversationContext context, String input) {
         if (passwordManager.isPasswordValid(rocketSender, input, rocketType)) {
             // запускаем ракету, ибо пароль верный
-            context.getForWhom().sendRawMessage(PASS_ENTERED_MESSAGE);
+            context.getForWhom().sendRawMessage(MESSAGE_PREFIX + PASS_ENTERED_MESSAGE);
             launchNuclearRocket();
             broadcastAlarm();
             // проигрываем личное оповещение игроку "вы инициировали запуск ракет, в случае.."
@@ -58,7 +58,7 @@ public class PassConversation extends StringPrompt {
                     () -> rocketSender.playSound(rocketSender.getLocation(), ROCKET_INITIALIZED_SOUND, SoundCategory.MASTER, 1.0f, 1.0f), 40);
         } else {
             // Неправильный пароль
-            context.getForWhom().sendRawMessage(INCORRECT_PASS_MESSAGE);
+            context.getForWhom().sendRawMessage(MESSAGE_PREFIX + INCORRECT_PASS_MESSAGE);
             playInvalidCode();
         }
 
@@ -78,7 +78,7 @@ public class PassConversation extends StringPrompt {
     // отправляем сообщения после пуска ракеты, начинаем проигрывать звук воздушной тревоги на их локациях
     private void broadcastAlarm() {
 
-        Bukkit.broadcast(Component.text(ROCKET_START_DETECTED_MESSAGE));
+        Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ROCKET_START_DETECTED_MESSAGE));
 
         BukkitRunnable sirenTask = new BukkitRunnable() {
             @Override
@@ -91,7 +91,7 @@ public class PassConversation extends StringPrompt {
         };
 
         if (instance.getAlarmManager().isSirenTasksEmpty()) {
-            Bukkit.broadcast(Component.text(ALARM_START_BROADCAST_MESSAGE));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_START_BROADCAST_MESSAGE));
             instance.getAlarmManager().addSirenTask(sirenTask);
             sirenTask.runTaskTimer(instance, 0L, 260L); // запускаем задачу с интервалом 13 секунд
         }
@@ -101,7 +101,7 @@ public class PassConversation extends StringPrompt {
     private void playInvalidCode() {
         String playerName = rocketSender.getName();
 
-        Bukkit.broadcast(Component.text(NON_SANCTIONED_ACCESS_MESSAGE.replace("{player}", playerName)));
+        Bukkit.broadcast(Component.text(MESSAGE_PREFIX + NON_SANCTIONED_ACCESS_MESSAGE.replace("{player}", playerName)));
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), INVALID_PASS_BROADCAST_SOUND, 0.6f, 1.0f);

@@ -91,9 +91,9 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         setState(RocketState.DEAD);
 
         if (Objects.equals(rocketType, "nuclear")) {
-            Bukkit.broadcast(Component.text(NUCLEAR_ROCKET_DETONATED_MESSAGE));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + NUCLEAR_ROCKET_DETONATED_MESSAGE));
         } else if (Objects.equals(rocketType, "sculk")) {
-            Bukkit.broadcast(Component.text(SCULK_ROCKET_DETONATED_MESSAGE));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + SCULK_ROCKET_DETONATED_MESSAGE));
         }
 
         activeRocketChecker();
@@ -147,7 +147,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
     // (RocketRunnable ещё не успел удалить ракету из списка)
     private void activeRocketChecker() {
         if (RocketRunnable.getActiveRocketCount() == 1) {
-            Bukkit.broadcast(Component.text(ALARM_STOP_BROADCAST_MESSAGE));
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_STOP_BROADCAST_MESSAGE));
             instance.getAlarmManager().stopSirenTasks();
         }
     }

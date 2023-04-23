@@ -21,7 +21,8 @@ import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class RocketCommand implements CommandExecutor {
     private final HashMap<Player, Boolean> playersConversations = new HashMap<>();
-    private final PasswordManager passwordManager = AdventBombs.getInstance().getPasswordManager();
+    private final AdventBombs instance = AdventBombs.getInstance();
+    private final PasswordManager passwordManager = instance.getPasswordManager();
     private final CooldownManager cooldownManager = new CooldownManager();
 
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
@@ -29,7 +30,7 @@ public class RocketCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("unblock")) {
                 // проверяем, есть ли у игрока права оператора (OP)
                 if (!sender.isOp()) {
-                    sender.sendMessage(NO_PERMISSIONS);
+                    sender.sendMessage(MESSAGE_PREFIX + NO_PERMISSION_MESSAGE);
                     return false;
                 }
 
@@ -39,33 +40,33 @@ public class RocketCommand implements CommandExecutor {
                     OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(playerName);
 
                     if (player == null) {
-                        sender.sendMessage(UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
+                        sender.sendMessage(MESSAGE_PREFIX + UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
                         return true;
                     }
 
                     if (passwordManager.unblockPlayer(player.getUniqueId())) {
-                        sender.sendMessage(UNBLOCK_SUCCESS_MESSAGE.replace("{player}", playerName));
+                        sender.sendMessage(MESSAGE_PREFIX + UNBLOCK_SUCCESS_MESSAGE.replace("{player}", playerName));
                     } else {
-                        sender.sendMessage(UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
+                        sender.sendMessage(MESSAGE_PREFIX + UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
                     }
                     return true;
                 }
 
                 // если что-то введено не верно - информируем пользователя
-                sender.sendMessage(INCORRECT_TYPING_MESSAGE);
+                sender.sendMessage(MESSAGE_PREFIX + INCORRECT_TYPING_MESSAGE);
                 return false;
             }
 
             if (args[0].equalsIgnoreCase("nuclear") || args[0].equalsIgnoreCase("sculk")) {
                 // проверка, кто отправил команду (игрок/другие источники)
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ONLY_IN_GAME_COMMAND);
+                    sender.sendMessage(MESSAGE_PREFIX + ONLY_IN_GAME_MESSAGE);
                     return false;
                 }
 
                 // если отправлены не все аргументы, то информируем игрока об этом
                 if (args.length < 4) {
-                    sender.sendMessage(INCORRECT_TYPING_MESSAGE);
+                    sender.sendMessage(MESSAGE_PREFIX + INCORRECT_TYPING_MESSAGE);
                     return false;
                 }
 
@@ -79,19 +80,19 @@ public class RocketCommand implements CommandExecutor {
 
                     // ограничиваем мощность ракеты
                     if (rocketPower < 0 || rocketPower > 100) {
-                        sender.sendMessage(INCORRECT_TYPING_MESSAGE);
+                        sender.sendMessage(MESSAGE_PREFIX + INCORRECT_TYPING_MESSAGE);
                         return false;
                     }
 
                     // если пользователь заблокирован из-за ввода неправильного пароля ранее, то не пропускаем.
                     if (passwordManager.isPLayerBlocked(senderUUID)) {
-                        sender.sendMessage(PLAYER_BLOCKED_MESSAGE);
+                        sender.sendMessage(MESSAGE_PREFIX + PLAYER_BLOCKED_MESSAGE);
                         return false;
                     }
 
                     // проверяем, нет ли у игрока уже запущенного Conversation
                     if (playersConversations.containsKey((Player) sender)) {
-                        sender.sendMessage(ALREADY_TYPING_PASS_MESSAGE);
+                        sender.sendMessage(MESSAGE_PREFIX + ALREADY_TYPING_PASS_MESSAGE);
                         return false;
                     }
 
@@ -101,7 +102,7 @@ public class RocketCommand implements CommandExecutor {
                         double secondsLeft = (double) timeLeft.getSeconds() + (double) timeLeft.getNano() / 1_000_000_000;
                         DecimalFormat df = new DecimalFormat("0.0");
                         String durationString = df.format(secondsLeft);
-                        sender.sendMessage(COOLDOWN_COMMAND.replace("{duration}", durationString));
+                        sender.sendMessage(MESSAGE_PREFIX + COOLDOWN_MESSAGE.replace("{duration}", durationString));
                         return false;
                     }
 
@@ -120,7 +121,7 @@ public class RocketCommand implements CommandExecutor {
                     conv.addConversationAbandonedListener(event -> {
                         if (!event.gracefulExit()) {
                             // Отправляем сообщение, если Conversation был прерван по таймауту
-                            ((Player) event.getContext().getForWhom()).sendMessage(NO_PASS_TYPED_MESSAGE);
+                            ((Player) event.getContext().getForWhom()).sendMessage(MESSAGE_PREFIX + NO_PASS_TYPED_MESSAGE);
                         }
                         playersConversations.remove((Player) sender);
                     });
@@ -133,14 +134,28 @@ public class RocketCommand implements CommandExecutor {
 
                 } catch (NumberFormatException e) {
                     // если игрок ввёл не число, то выводим сообщение о неверном вводе.
-                    sender.sendMessage(INCORRECT_TYPING_MESSAGE);
+                    sender.sendMessage(MESSAGE_PREFIX + INCORRECT_TYPING_MESSAGE);
                     return false;
                 }
+            }
+
+            if (args[0].equalsIgnoreCase("reload")) {
+                // проверяем, есть ли у игрока права оператора (OP)
+                if (!sender.isOp()) {
+                    sender.sendMessage(MESSAGE_PREFIX + NO_PERMISSION_MESSAGE);
+                    return false;
+                }
+
+                instance.getConfigManager().reloadConfig();
+
+                sender.sendMessage(MESSAGE_PREFIX + RELOAD_MESSAGE);
+                return true;
+
             }
         }
 
         // если вообще нет аргументов, то тоже информируем человека
-        sender.sendMessage(INCORRECT_TYPING_MESSAGE);
+        sender.sendMessage(MESSAGE_PREFIX + INCORRECT_TYPING_MESSAGE);
         return false;
 
     }
