@@ -56,7 +56,6 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
             if (getState() != RocketState.MOVING_UP) {
                 setState(RocketState.MOVING_UP);
             }
-            getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
             moveUp();
 
         } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
@@ -83,6 +82,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         }
 
         getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
+        getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
         addBeam();
     }
 
@@ -102,7 +102,8 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         Location finalRocketLocation = getRocketLocation();
 
         if (Objects.equals(rocketType, "nuclear")) {
-            world.createExplosion(finalRocketLocation, explosionPower, true, true);
+            // + 2 к высоте ибо взрыв с высокой вероятностью без этого почти не поразит игрока
+            world.createExplosion(finalRocketLocation.clone().add(0, 2, 0), explosionPower, true, true);
             world.spawnParticle(Particle.EXPLOSION_LARGE, finalRocketLocation, 10);
 
             int soundPlayRange = explosionPower * 8;
