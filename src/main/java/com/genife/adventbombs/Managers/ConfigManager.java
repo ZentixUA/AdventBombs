@@ -3,6 +3,8 @@ package com.genife.adventbombs.Managers;
 import com.genife.adventbombs.AdventBombs;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class ConfigManager {
     public static int DISTANCE_TO_MOVE_ROCKET_WITH_Y;
     public static int FLYING_ROCKET_HEIGHT;
@@ -74,6 +76,8 @@ public class ConfigManager {
         config.addDefault("rockets.flying_height", 250);
         config.addDefault("rockets.nuclear.password", "nuclear_start_pass");
         config.addDefault("rockets.sculk.password", "sculk_start_pass");
+
+        config.setComments("effects", List.of("Задержку и длительность указывай в секундах"));
 
         config.addDefault("effects.radiation.effects_delay", 60);
         config.addDefault("effects.radiation.duration", 480);
