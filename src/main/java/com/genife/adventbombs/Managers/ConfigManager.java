@@ -77,8 +77,6 @@ public class ConfigManager {
         config.addDefault("rockets.nuclear.password", "nuclear_start_pass");
         config.addDefault("rockets.sculk.password", "sculk_start_pass");
 
-        config.setComments("effects", List.of("Задержку и длительность указывай в секундах"));
-
         config.addDefault("effects.radiation.effects_delay", 60);
         config.addDefault("effects.radiation.duration", 480);
 
@@ -132,6 +130,13 @@ public class ConfigManager {
         config.addDefault("sounds.alarm.sound", "minecraft:my_sounds.alarm_sound");
 
         config.options().copyDefaults(true);
+        plugin.saveConfig();
+
+        setCommentsInConf();
+    }
+
+    private void setCommentsInConf() {
+        config.setComments("effects", List.of("Задержку и длительность указывай в секундах"));
         plugin.saveConfig();
     }
 
