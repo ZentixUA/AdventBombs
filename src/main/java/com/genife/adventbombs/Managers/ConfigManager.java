@@ -130,13 +130,7 @@ public class ConfigManager {
         config.addDefault("sounds.alarm.sound", "minecraft:my_sounds.alarm_sound");
 
         config.options().copyDefaults(true);
-        plugin.saveConfig();
-
-        setCommentsInConf();
-    }
-
-    private void setCommentsInConf() {
-        config.setComments("effects", List.of("Задержку и длительность указывай в секундах"));
+        config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!"));
         plugin.saveConfig();
     }
 
@@ -193,7 +187,7 @@ public class ConfigManager {
         ROCKET_INITIALIZED_SOUND = config.getString("sounds.rocket.initialized");
         ROCKET_START_FLYING_SOUND = config.getString("sounds.rocket.start_flying");
         ROCKET_FLYING_SOUND = config.getString("sounds.rocket.flying");
-        ROCKET_DETONATE_SOUND = config.getString("minecraft:my_sounds.rocket_detonate");
+        ROCKET_DETONATE_SOUND = config.getString("sounds.rocket.detonate");
         INVALID_PASS_BROADCAST_SOUND = config.getString("sounds.rocket.invalid_pass_broadcast_sound");
         ALARM_SOUND = config.getString("sounds.alarm.sound");
     }

@@ -196,7 +196,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         } else {
             // если ракета каким-то образом будет выше 250 блоков, то она
             // будет в итоге тут постепенно снижаться до 250 вместо Y цели
-            pitch = Math.atan2(sqrt, from.getY() - 250) + Math.PI;
+            pitch = Math.atan2(sqrt, from.getY() - FLYING_ROCKET_HEIGHT) + Math.PI;
         }
         double X = Math.sin(pitch) * Math.cos(yaw);
         double Y = Math.sin(pitch) * Math.sin(yaw);
