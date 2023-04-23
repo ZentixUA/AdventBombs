@@ -11,6 +11,7 @@ import com.genife.adventbombs.Rockets.engine.Soared;
 import com.genife.adventbombs.Runnables.RocketRunnable;
 import com.genife.adventbombs.SoundUtils.CreateSound;
 import com.genife.adventbombs.Tools.getNearlyBlocks;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -21,19 +22,13 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static org.bukkit.Bukkit.getServer;
+import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class NuclearRocket extends Rocket implements Selfguided, Soared, Explodable {
-    private static final int DISTANCE_TO_MOVE_WITH_Y = 340;
     private static final int MIN_BEAM = 20;
-    private static final int FLYING_ROCKET_HEIGHT = 250;
-    private static final int MIN_EXPLOSION_RANGE = 10;
-    private static final int MID_EXPLOSION_RANGE = 50;
-    private static final int HIGH_EXPLOSION_RANGE = 100;
     private final String rocketType;
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
-    private int soundPlayRange;
 
     public NuclearRocket(Player rocketSender, String rocketType, Location targetLocation, int explosionPower, int maxBeam) {
         super(rocketSender, targetLocation, maxBeam);
@@ -55,7 +50,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         // движение ракеты, логика в зависимости от высоты
         if (getBeam() == 0) {
             getRocketLocation().setPitch(-90);
-            new CreateSound("minecraft:my_sounds.nuclear_start", 200, getRocketLocation());
+            new CreateSound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
 
         } else if (getRocketLocation().getBlockY() <= FLYING_ROCKET_HEIGHT && !isDown()) {
             if (getState() != RocketState.MOVING_UP) {
@@ -64,8 +59,8 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
             getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
             moveUp();
 
-        } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_WITH_Y) {
-            new CreateSound("minecraft:my_sounds.nuclear_flight", 316, getRocketLocation());
+        } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
+            new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
 
             // Вычисляем отклонение координат X, Z между локациями ракеты и цели
             int differenceX = Math.abs(getRocketLocation().getBlockX() - getTargetLocation().getBlockX());
@@ -82,8 +77,8 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
                 }
                 getRocketLocation().add(findPath(false).multiply(5.8));
             }
-        } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_WITH_Y) {
-            new CreateSound("minecraft:my_sounds.nuclear_flight", 316, getRocketLocation());
+        } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
+            new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
             moveWithY();
         }
 
@@ -96,9 +91,9 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         setState(RocketState.DEAD);
 
         if (Objects.equals(rocketType, "nuclear")) {
-            getServer().broadcastMessage("§3[Центр оповещения населения] §fМежконтинентальная ядерная ракета произвела детонацию!");
+            Bukkit.broadcast(Component.text(NUCLEAR_ROCKET_DETONATED_MESSAGE));
         } else if (Objects.equals(rocketType, "sculk")) {
-            getServer().broadcastMessage("§3[Центр оповещения населения] §fСкалковая ракета достигла цели!");
+            Bukkit.broadcast(Component.text(SCULK_ROCKET_DETONATED_MESSAGE));
         }
 
         activeRocketChecker();
@@ -110,15 +105,9 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
             world.createExplosion(finalRocketLocation, explosionPower, true, true);
             world.spawnParticle(Particle.EXPLOSION_LARGE, finalRocketLocation, 10);
 
-            if (explosionPower <= MIN_EXPLOSION_RANGE) {
-                soundPlayRange = 200;
-            } else if (explosionPower <= MID_EXPLOSION_RANGE) {
-                soundPlayRange = 500;
-            } else if (explosionPower <= HIGH_EXPLOSION_RANGE) {
-                soundPlayRange = 800;
-            }
+            int soundPlayRange = explosionPower * 8;
 
-            new CreateSound("minecraft:my_sounds.nuclear_detonate", soundPlayRange, getRocketLocation());
+            new CreateSound(ROCKET_DETONATE_SOUND, soundPlayRange, getRocketLocation());
 
             catastrophe(finalRocketLocation);
 
@@ -157,7 +146,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
     // (RocketRunnable ещё не успел удалить ракету из списка)
     private void activeRocketChecker() {
         if (RocketRunnable.getActiveRocketCount() == 1) {
-            Bukkit.broadcastMessage("§3[Центр оповещения населения] §aВнимание! Отбой воздушной тревоги! Все ракеты достигли целей!");
+            Bukkit.broadcast(Component.text(ALARM_STOP_BROADCAST_MESSAGE));
             instance.getAlarmManager().stopSirenTasks();
         }
     }
@@ -165,7 +154,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
     private void catastrophe(Location explosionCenter) {
         new Radiation(explosionCenter, explosionPower).runTask(instance);
         if (explosionPower >= 50) {
-            new AcidRain(getRocketWorld()).runTaskLater(instance, 2400);
+            new AcidRain(getRocketWorld()).runTaskLater(instance, ACID_RAIN_DELAY * 20L);
         }
     }
 

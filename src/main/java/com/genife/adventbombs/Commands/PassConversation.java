@@ -5,6 +5,7 @@ import com.genife.adventbombs.Managers.PasswordManager;
 import com.genife.adventbombs.Rockets.NuclearRocket;
 import com.genife.adventbombs.Runnables.RocketRunnable;
 import com.genife.adventbombs.SoundUtils.CreateSound;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.SoundCategory;
@@ -17,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+
+import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class PassConversation extends StringPrompt {
     private final Player rocketSender;
@@ -39,23 +42,23 @@ public class PassConversation extends StringPrompt {
     // функция для перехвата кодового слова
     @Override
     public String getPromptText(ConversationContext context) {
-        rocketSender.playSound(rocketSender.getLocation(), "minecraft:my_sounds.nuclear_code", SoundCategory.MASTER, 1.0f, 1.0f);
-        return "§3[AdventBombs] §fВведи кодовое слово.";
+        rocketSender.playSound(rocketSender.getLocation(), ROCKET_CODE_TYPING_SOUND, SoundCategory.MASTER, 1.0f, 1.0f);
+        return PASS_ENTER_MESSAGE;
     }
 
     @Override
     public Prompt acceptInput(ConversationContext context, String input) {
         if (passwordManager.isPasswordValid(rocketSender, input, rocketType)) {
             // запускаем ракету, ибо пароль верный
-            context.getForWhom().sendRawMessage("§3[AdventBombs] §fИнициализация..");
+            context.getForWhom().sendRawMessage(PASS_ENTERED_MESSAGE);
             launchNuclearRocket();
             broadcastAlarm();
-            // проигрываем личное оповещение игроку "вы инициорвали запуск ракет, в случае.."
+            // проигрываем личное оповещение игроку "вы инициировали запуск ракет, в случае.."
             Bukkit.getScheduler().runTaskLater(instance,
-                    () -> rocketSender.playSound(rocketSender.getLocation(), "minecraft:my_sounds.nuclear_alert", SoundCategory.MASTER, 1.0f, 1.0f), 40);
+                    () -> rocketSender.playSound(rocketSender.getLocation(), ROCKET_INITIALIZED_SOUND, SoundCategory.MASTER, 1.0f, 1.0f), 40);
         } else {
             // Неправильный пароль
-            context.getForWhom().sendRawMessage("§3[AdventBombs] §fНеверный код запуска.");
+            context.getForWhom().sendRawMessage(INCORRECT_PASS_MESSAGE);
             playInvalidCode();
         }
 
@@ -75,20 +78,20 @@ public class PassConversation extends StringPrompt {
     // отправляем сообщения после пуска ракеты, начинаем проигрывать звук воздушной тревоги на их локациях
     private void broadcastAlarm() {
 
-        Bukkit.broadcastMessage("§3[Центр оповещения населения] §cЗАФИКСИРОВАН ПУСК МЕЖКОНТИНЕНТАЛЬНОЙ РАКЕТЫ НЕИЗВЕСТНОГО ТИПА!");
+        Bukkit.broadcast(Component.text(ROCKET_START_DETECTED_MESSAGE));
 
         BukkitRunnable sirenTask = new BukkitRunnable() {
             @Override
             public void run() {
                 List<Location> allAlarms = instance.getAlarmManager().getAlarmsLocations();
                 for (Location location : allAlarms) {
-                    new CreateSound("minecraft:my_sounds.nuclear_alarm", 200, location);
+                    new CreateSound(ALARM_SOUND, 200, location);
                 }
             }
         };
 
         if (instance.getAlarmManager().isSirenTasksEmpty()) {
-            Bukkit.broadcastMessage("§3[Центр оповещения населения] §cВНИМАНИЕ! ОБЪЯВЛЕНА ВОЗДУШНАЯ ТРЕВОГА! ВСЕМ ПРОЙТИ В УКРЫТИЕ!");
+            Bukkit.broadcast(Component.text(ALARM_START_BROADCAST_MESSAGE));
             instance.getAlarmManager().addSirenTask(sirenTask);
             sirenTask.runTaskTimer(instance, 0L, 260L); // запускаем задачу с интервалом 13 секунд
         }
@@ -98,10 +101,10 @@ public class PassConversation extends StringPrompt {
     private void playInvalidCode() {
         String playerName = rocketSender.getName();
 
-        Bukkit.broadcastMessage("§3[Миртанский центр управления] §cОбнаружен несанкционированный вход в систему управления термоядерными зарядами игроком " + playerName + ". Система управления термоядерными зарядами переведена на ручное управление. В случае повторного фиксирования несанкционированного входа в систему будет активирован протокол \"Периметр\" - массированный запуск ядерных боеголовок по указанным целям: Верс... //КРИТИЧЕСКАЯ ОШИБКА//: Доступ запрещен.");
+        Bukkit.broadcast(Component.text(NON_SANCTIONED_ACCESS_MESSAGE.replace("{player}", playerName)));
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), "minecraft:my_sounds.nuclear_alert_fake_pass", 0.6f, 1.0f);
+            player.playSound(player.getLocation(), INVALID_PASS_BROADCAST_SOUND, 0.6f, 1.0f);
         }
     }
 }

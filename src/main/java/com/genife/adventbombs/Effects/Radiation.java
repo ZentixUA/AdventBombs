@@ -1,9 +1,9 @@
 package com.genife.adventbombs.Effects;
 
 import com.genife.adventbombs.AdventBombs;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -12,6 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class Radiation extends BukkitRunnable {
     private final Location explosionCenter;
@@ -29,16 +31,16 @@ public class Radiation extends BukkitRunnable {
     // отправляем глобальное сообщение о появлении радиации, стартуем задачи
     @Override
     public void run() {
-        Server server = Bukkit.getServer();
         AdventBombs instance = AdventBombs.getInstance();
 
         // Оповещаем игроков о начале радиации
-        server.broadcastMessage("§3[Центр оповещения населения] §fСообщается о появлении §aрадиации §fв районе §a" + explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ() + " в мире " + explosionCenter.getWorld().getName() + ". §fВсе необходимо принимать меры предосторожности!");
+        String cords = explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ();
+        Bukkit.broadcast(Component.text(RADIATION_START_MESSAGE.replace("{cords}", cords).replace("{world}", explosionCenter.getWorld().getName())));
 
         // Создаем таск и запускаем его
         int radiationTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new RadiationEffect(explosionCenter, radiationRadius, explosionPower, radiationZone), 0L, 20L);
         // Завершаем задачу радиации через 7 минут
-        Bukkit.getScheduler().runTaskLater(instance, new StopRadiation(radiationTaskId, explosionCenter, radiationZone), 7 * 60 * 20L);
+        Bukkit.getScheduler().runTaskLater(instance, new StopRadiation(radiationTaskId, explosionCenter, radiationZone), RADIATION_DURATION * 20L);
     }
 
     // эта задача добавляет/удаляет жертв радиации из списка
@@ -57,16 +59,10 @@ public class Radiation extends BukkitRunnable {
                     if (!playersInZone.containsKey(player)) {
                         // Игрок вошел в зону радиации
                         playersInZone.put(player, System.currentTimeMillis());
-                        Bukkit.getLogger().info("Игрок " + player.getName() + " вошёл в зону радиации " + explosionCenter + " в мире " + world.getName() + ".");
                     }
                 } else {
                     Map<Player, Long> playersInZone = radiationZone.get(explosionCenter);
-
                     if (playersInZone != null) {
-
-                        if (playersInZone.containsKey(player)) {
-                            Bukkit.getLogger().info("Игрок " + player.getName() + " покинул зону радиации " + explosionCenter + " в мире " + world.getName() + " ногами. Удалил его из списка радиации!");
-                        }
                         // Игрок вышел из зоны радиации, можно удалять даже если в списке не было. Устойчив .remove() к этому.
                         playersInZone.remove(player);
                     }
@@ -85,11 +81,10 @@ public class Radiation extends BukkitRunnable {
 
                     if ((!player.getWorld().getName().equals(world.getName())) || !player.isOnline()) {
                         playersInZone.remove(player);
-                        Bukkit.getLogger().info("Игрок " + player.getName() + " покинул зону радиации " + explosionCenter + " в мире " + world.getName() + " через портал/вышел из сервера. Удалил его из списка радиации!");
                         continue;
                     }
 
-                    if (currentTime - enterTime > 60 * 1000) {
+                    if (currentTime - enterTime > RADIATION_EFFECT_DELAY * 1000) {
 
                         // эффекты к добавлению, "по ступенькам"
                         if (explosionPower > 0) {
@@ -119,10 +114,9 @@ public class Radiation extends BukkitRunnable {
 
         @Override
         public void run() {
-            Server server = Bukkit.getServer();
-
             // Оповещаем игроков о конце радиации
-            server.broadcastMessage("§3[Центр оповещения населения] §fРадиация ослабевает в мире " + explosionCenter.getWorld().getName() + " по координатам §a" + explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ());
+            String cords = explosionCenter.getBlockX() + ", " + explosionCenter.getBlockZ();
+            Bukkit.broadcast(Component.text(RADIATION_STOP_MESSAGE.replace("{world}", explosionCenter.getWorld().getName()).replace("{cords}", cords)));
 
             radiationZone.remove(explosionCenter);
             // Отменяем задачу и очищаем зону

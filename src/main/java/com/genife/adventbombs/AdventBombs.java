@@ -4,15 +4,13 @@ import com.genife.adventbombs.Commands.RocketCommand;
 import com.genife.adventbombs.Commands.RocketCompleter;
 import com.genife.adventbombs.Events.AlarmEvents;
 import com.genife.adventbombs.Managers.AlarmManager;
+import com.genife.adventbombs.Managers.ConfigManager;
 import com.genife.adventbombs.Managers.PasswordManager;
 import com.genife.adventbombs.Runnables.DataActualize;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdventBombs extends JavaPlugin {
     private static AdventBombs instance;
-    private static String nuclearCode;
-    private static String sculkCode;
     private AlarmManager alarmManager;
     private PasswordManager passwordManager;
 
@@ -21,18 +19,11 @@ public class AdventBombs extends JavaPlugin {
         return instance;
     }
 
-    public static String getNuclearCode() {
-        return nuclearCode;
-    }
-
-    public static String getSculkCode() {
-        return sculkCode;
-    }
-
     @Override
     public void onEnable() {
         instance = this;
-
+        // Инициализируем конфиг
+        new ConfigManager(this);
         // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен
@@ -42,17 +33,6 @@ public class AdventBombs extends JavaPlugin {
         this.getCommand("rocket").setExecutor(new RocketCommand());
         //noinspection DataFlowIssue
         this.getCommand("rocket").setTabCompleter(new RocketCompleter());
-
-        // берём значения из конфига / создаём его
-        FileConfiguration config = getConfig();
-
-        config.addDefault("nuclear_code", "nuclear_start_code");
-        config.addDefault("sculk_code", "sculk_start_code");
-        config.options().copyDefaults(true);
-        saveConfig();
-
-        nuclearCode = config.getString("nuclear_code");
-        sculkCode = config.getString("sculk_code");
 
         // регистрируем ивенты из alarmManager
         getServer().getPluginManager().registerEvents(new AlarmEvents(), this);

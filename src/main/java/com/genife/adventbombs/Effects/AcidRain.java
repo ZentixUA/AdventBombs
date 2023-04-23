@@ -1,8 +1,8 @@
 package com.genife.adventbombs.Effects;
 
 import com.genife.adventbombs.AdventBombs;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.genife.adventbombs.Managers.ConfigManager.*;
+
 public class AcidRain extends BukkitRunnable {
     private static final Map<World, List<Integer>> acidRainTasks = new HashMap<>();
     private final World world;
@@ -27,7 +29,6 @@ public class AcidRain extends BukkitRunnable {
 
     @Override
     public void run() {
-        Server server = Bukkit.getServer();
         AdventBombs instance = AdventBombs.getInstance();
 
         // Если мира нет в списке, то добавляем
@@ -37,13 +38,13 @@ public class AcidRain extends BukkitRunnable {
 
         // если по этому миру уже есть кислотный дождь, то мы его продлеваем перезапустив.
         if (!taskIds.isEmpty()) {
-            Bukkit.getLogger().info("§3[AdventBombs] §fНайден уже существующий кислотный дождь в мире " + world.getName() + ", отменяю его и вызываю новый (в итоге, он продлевается)..");
+            Bukkit.getLogger().info(DEBUG_ACID_RAIN_FOUND_MESSAGE.replace("{world}", world.getName()));
             for (int taskId : taskIds) {
                 Bukkit.getScheduler().cancelTask(taskId);
             }
             taskIds.clear();
         } else {
-            server.broadcastMessage("§3[Центр оповещения населения] §cСообщается о начале §aкислотного §cдождя в мире " + world.getName() + ". Все в укрытия!");
+            Bukkit.broadcast(Component.text(ACID_RAIN_START_MESSAGE.replace("{world}", world.getName())));
         }
 
         // ставим нужную погоду
@@ -52,7 +53,7 @@ public class AcidRain extends BukkitRunnable {
 
         // запускаем задачи
         int acidRainTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new AcidRainEffect(world), 0L, 20L);
-        int stopAcidRainTaskId = Bukkit.getScheduler().runTaskLater(instance, new StopAcidRain(world, acidRainTasks), 8 * 60 * 20L).getTaskId();
+        int stopAcidRainTaskId = Bukkit.getScheduler().runTaskLater(instance, new StopAcidRain(world, acidRainTasks), ACID_RAIN_DURATION * 20L).getTaskId();
 
         // добавляем их id в список id`шек
         taskIds.add(acidRainTaskId);
@@ -99,7 +100,7 @@ public class AcidRain extends BukkitRunnable {
         // останавливаем кислотный дождь, ибо он "вылил свою душу"
         @Override
         public void run() {
-            Bukkit.broadcastMessage("§3[Центр оповещения населения] §aКислотный дождь §fзакончился в мире " + world.getName() + ". Можно выходить из укрытий, будьте осторожны!");
+            Bukkit.broadcast(Component.text(ACID_RAIN_STOP_MESSAGE.replace("{world}", world.getName())));
 
             // Получаем список айдишников задач по миру (он тут как ключ)
             List<Integer> taskIds = acidRainTasks.get(world);

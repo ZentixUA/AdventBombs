@@ -35,10 +35,10 @@ public class RocketCompleter implements TabCompleter {
         }
         // Если вводится четвертый аргумент команды
         else if (args.length == 4 && (args[0].equalsIgnoreCase("nuclear") || args[0].equalsIgnoreCase("sculk"))) {
-            completions.add("мощность: 1-100");
+            completions.add("power: 1-100");
             return completions;
         }
-        // Если вводится аргумент команды removefromlist
+        // Если вводится аргумент команды unblock
         else if (args.length == 2 && args[0].equalsIgnoreCase("unblock")) {
             List<String> nicknames = new ArrayList<>();
             for (BlockedPlayerElement blockedPlayer : passwordManager.getBlockedPlayers()) {

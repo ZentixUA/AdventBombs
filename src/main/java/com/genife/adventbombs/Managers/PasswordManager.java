@@ -1,6 +1,5 @@
 package com.genife.adventbombs.Managers;
 
-import com.genife.adventbombs.AdventBombs;
 import com.genife.adventbombs.Formatters.BlockedPlayerElement;
 import org.bukkit.entity.Player;
 
@@ -9,13 +8,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.genife.adventbombs.Managers.ConfigManager.NUCLEAR_START_PASS;
+import static com.genife.adventbombs.Managers.ConfigManager.SCULK_START_PASS;
+
 public class PasswordManager {
     private final List<BlockedPlayerElement> blockedPlayers = new ArrayList<>();
 
     // проверяет правильность введённого пароля
     public boolean isPasswordValid(Player player, String password, String type) {
         // если пароль в зависимости от типа бомбы верный, то отдаём true
-        if ((Objects.equals(type, "nuclear") && password.equals(AdventBombs.getNuclearCode())) || (Objects.equals(type, "sculk") && password.equals(AdventBombs.getSculkCode()))) {
+        if ((Objects.equals(type, "nuclear") && password.equals(NUCLEAR_START_PASS)) || (Objects.equals(type, "sculk") && password.equals(SCULK_START_PASS))) {
             return true;
         } else {
             // ставим время конца блокировки на 12 часов вперёд (проверяем через canUseCommand()), возвращаем false

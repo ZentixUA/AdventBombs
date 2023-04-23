@@ -17,15 +17,9 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static com.genife.adventbombs.Managers.ConfigManager.*;
+
 public class RocketCommand implements CommandExecutor {
-    private static final String NO_OP = "§3[AdventBombs] §cУ тебя нет прав на использование этой команды!";
-    private static final String ONLY_IN_GAME = "§3[AdventBombs] §cЭту команду следует использовать в игре.";
-    private static final String REMOVE_FROM_LIST_INCORRECT_TYPING = "§3[AdventBombs] §fНеверный ввод. /rocket unblock [никнейм]";
-    private static final String INCORRECT_TYPING = "§3[AdventBombs] §fНеверный ввод. /rocket [nuclear/sculk] [X] [Z] [мощность 0-100]";
-    private static final String INCORRECT_POWER_INT = "§3[AdventBombs] §fНеверное значение мощности, допустимы числа от 0 до 100.";
-    private static final String PLAYER_BLOCKED = "§3[AdventBombs] §cДоступ запрещен.";
-    private static final String ALREADY_IN_CONVERSATION = "§3[AdventBombs] §cТы уже в запросе ввода пароля! Заверши его, прежде чем начинать новый.";
-    private static final String NO_PASS_TYPED = "§3[AdventBombs] §cТы не ввёл пароль в течении 120 секунд!";
     private final HashMap<Player, Boolean> playersConversations = new HashMap<>();
     private final PasswordManager passwordManager = AdventBombs.getInstance().getPasswordManager();
     private final CooldownManager cooldownManager = new CooldownManager();
@@ -33,10 +27,9 @@ public class RocketCommand implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (args.length != 0) {
             if (args[0].equalsIgnoreCase("unblock")) {
-
                 // проверяем, есть ли у игрока права оператора (OP)
                 if (!sender.isOp()) {
-                    sender.sendMessage(NO_OP);
+                    sender.sendMessage(NO_PERMISSIONS);
                     return false;
                 }
 
@@ -46,33 +39,33 @@ public class RocketCommand implements CommandExecutor {
                     OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(playerName);
 
                     if (player == null) {
-                        sender.sendMessage("§3[AdventBombs] §fИгрок " + playerName + " не играл на сервере.");
+                        sender.sendMessage(UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
                         return true;
                     }
 
                     if (passwordManager.unblockPlayer(player.getUniqueId())) {
-                        sender.sendMessage("§3[AdventBombs] §fИгрок " + playerName + " был удален из списка блокировок.");
+                        sender.sendMessage(UNBLOCK_SUCCESS_MESSAGE.replace("{player}", playerName));
                     } else {
-                        sender.sendMessage("§3[AdventBombs] §fИгрок " + playerName + " не найден в списке блокировок.");
+                        sender.sendMessage(UNBLOCK_NOT_FOUND_MESSAGE.replace("{player}", playerName));
                     }
                     return true;
                 }
 
                 // если что-то введено не верно - информируем пользователя
-                sender.sendMessage(REMOVE_FROM_LIST_INCORRECT_TYPING);
+                sender.sendMessage(INCORRECT_TYPING_MESSAGE);
                 return false;
             }
 
             if (args[0].equalsIgnoreCase("nuclear") || args[0].equalsIgnoreCase("sculk")) {
                 // проверка, кто отправил команду (игрок/другие источники)
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ONLY_IN_GAME);
+                    sender.sendMessage(ONLY_IN_GAME_COMMAND);
                     return false;
                 }
 
                 // если отправлены не все аргументы, то информируем игрока об этом
                 if (args.length < 4) {
-                    sender.sendMessage(INCORRECT_TYPING);
+                    sender.sendMessage(INCORRECT_TYPING_MESSAGE);
                     return false;
                 }
 
@@ -86,19 +79,19 @@ public class RocketCommand implements CommandExecutor {
 
                     // ограничиваем мощность ракеты
                     if (rocketPower < 0 || rocketPower > 100) {
-                        sender.sendMessage(INCORRECT_POWER_INT);
+                        sender.sendMessage(INCORRECT_TYPING_MESSAGE);
                         return false;
                     }
 
                     // если пользователь заблокирован из-за ввода неправильного пароля ранее, то не пропускаем.
                     if (passwordManager.isPLayerBlocked(senderUUID)) {
-                        sender.sendMessage(PLAYER_BLOCKED);
+                        sender.sendMessage(PLAYER_BLOCKED_MESSAGE);
                         return false;
                     }
 
                     // проверяем, нет ли у игрока уже запущенного Conversation
                     if (playersConversations.containsKey((Player) sender)) {
-                        sender.sendMessage(ALREADY_IN_CONVERSATION);
+                        sender.sendMessage(ALREADY_TYPING_PASS_MESSAGE);
                         return false;
                     }
 
@@ -107,8 +100,8 @@ public class RocketCommand implements CommandExecutor {
                     if (!timeLeft.isZero()) {
                         double secondsLeft = (double) timeLeft.getSeconds() + (double) timeLeft.getNano() / 1_000_000_000;
                         DecimalFormat df = new DecimalFormat("0.0");
-                        String durationString = df.format(secondsLeft) + " сек.";
-                        sender.sendMessage("§3[AdventBombs] §cПодожди " + durationString + ", прежде чем снова запустить ракету!");
+                        String durationString = df.format(secondsLeft);
+                        sender.sendMessage(COOLDOWN_COMMAND.replace("{duration}", durationString));
                         return false;
                     }
 
@@ -127,7 +120,7 @@ public class RocketCommand implements CommandExecutor {
                     conv.addConversationAbandonedListener(event -> {
                         if (!event.gracefulExit()) {
                             // Отправляем сообщение, если Conversation был прерван по таймауту
-                            ((Player) event.getContext().getForWhom()).sendMessage(NO_PASS_TYPED);
+                            ((Player) event.getContext().getForWhom()).sendMessage(NO_PASS_TYPED_MESSAGE);
                         }
                         playersConversations.remove((Player) sender);
                     });
@@ -140,14 +133,14 @@ public class RocketCommand implements CommandExecutor {
 
                 } catch (NumberFormatException e) {
                     // если игрок ввёл не число, то выводим сообщение о неверном вводе.
-                    sender.sendMessage(INCORRECT_TYPING);
+                    sender.sendMessage(INCORRECT_TYPING_MESSAGE);
                     return false;
                 }
             }
         }
 
         // если вообще нет аргументов, то тоже информируем человека
-        sender.sendMessage(INCORRECT_TYPING);
+        sender.sendMessage(INCORRECT_TYPING_MESSAGE);
         return false;
 
     }

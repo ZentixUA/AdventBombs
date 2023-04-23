@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 
+import static com.genife.adventbombs.Managers.ConfigManager.*;
+
 public class AlarmEvents implements Listener {
     AlarmManager alarmManager = AdventBombs.getInstance().getAlarmManager();
 
@@ -47,10 +49,10 @@ public class AlarmEvents implements Listener {
                     alarmManager.saveAlarms();
 
                     // отправляем сообщение
-                    player.sendMessage("§3[Центр оповещения населения] §fТы установил сирену. Теперь, во время воздушной тревоги, этот блок будет проигрывать звуковое оповещение!");
+                    player.sendMessage(ALARM_PLACE_MESSAGE);
                 } else {
                     // если сирена уже существует, отправляем предупреждение.
-                    player.sendMessage("§3[Центр оповещения населения] §cНа этом месте уже установлена сирена!");
+                    player.sendMessage(ALREADY_PLACED_ALARM_MESSAGE);
                 }
             }
         }
@@ -63,7 +65,7 @@ public class AlarmEvents implements Listener {
 
         if (block.getType() == Material.JUKEBOX || block.getState() instanceof Sign) {
             Location block_location = block.getLocation();
-            alarmManager.removeAlarmIfExists(block_location, event.getPlayer(), "§3[Центр оповещения населения] §fТы сломал блок сирены!");
+            alarmManager.removeAlarmIfExists(block_location, event.getPlayer(), ALARM_BREAK_MESSAGE);
         }
     }
 }

@@ -23,7 +23,7 @@ public class RocketRunnable extends BukkitRunnable {
     public void run() {
         if (rocket.isDead()) {
             this.cancel();
-            activeRockets.remove(this); // убираем инстанс из списка активных ракет
+            activeRockets.remove(this); // убираем ракету из списка активных ракет
             return;
         }
         rocket.move();
