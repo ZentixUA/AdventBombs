@@ -29,7 +29,6 @@ public class AdventBombs extends JavaPlugin {
         configManager = new ConfigManager();
         // Инициализируем менеджер кулдауна команд
         cooldownManager = new CooldownManager();
-        cooldownManager.configureCache();
         // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен

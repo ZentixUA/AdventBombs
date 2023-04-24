@@ -13,6 +13,11 @@ import static com.genife.adventbombs.Managers.ConfigManager.ROCKET_USAGE_COOLDOW
 public class CooldownManager {
     private Cache<UUID, Instant> cache;
 
+    public CooldownManager() {
+        // Настраиваем кэш при инициализации класса
+        configureCache();
+    }
+
     public void configureCache() {
         cache = CacheBuilder.newBuilder()
                 .expireAfterWrite(ROCKET_USAGE_COOLDOWN, TimeUnit.SECONDS)
