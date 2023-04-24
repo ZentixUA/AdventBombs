@@ -147,6 +147,7 @@ public class RocketCommand implements CommandExecutor {
                 }
 
                 instance.getConfigManager().reloadConfig();
+                // Ребилдим список кулдауна (вдруг изменили его продолжительность)
                 cooldownManager.configureCache();
 
                 sender.sendMessage(MESSAGE_PREFIX + RELOAD_MESSAGE);
