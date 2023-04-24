@@ -128,7 +128,7 @@ public class RocketCommand implements CommandExecutor {
 
                     conv.begin();
 
-                    cooldownManager.setCooldown(senderUUID, Duration.ofSeconds(CooldownManager.DEFAULT_COOLDOWN));
+                    cooldownManager.setCooldown(senderUUID);
 
                     return true;
 

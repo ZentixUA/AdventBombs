@@ -10,6 +10,7 @@ public class ConfigManager {
     public static int FLYING_ROCKET_HEIGHT;
     public static String NUCLEAR_START_PASS;
     public static String SCULK_START_PASS;
+    public static Integer ROCKET_USAGE_COOLDOWN;
 
     public static Integer RADIATION_EFFECT_DELAY;
     public static Integer RADIATION_DURATION;
@@ -81,6 +82,7 @@ public class ConfigManager {
         config.addDefault("rockets.flying_height", 250);
         config.addDefault("rockets.nuclear.password", "nuclear_start_pass");
         config.addDefault("rockets.sculk.password", "sculk_start_pass");
+        config.addDefault("rockets.cooldown", 5);
 
         config.addDefault("effects.radiation.effects_delay", 60);
         config.addDefault("effects.radiation.duration", 480);
@@ -147,6 +149,7 @@ public class ConfigManager {
         FLYING_ROCKET_HEIGHT = config.getInt("rockets.flying_height");
         NUCLEAR_START_PASS = config.getString("rockets.nuclear.password");
         SCULK_START_PASS = config.getString("rockets.sculk.password");
+        ROCKET_USAGE_COOLDOWN = config.getInt("rockets.cooldown");
 
         RADIATION_EFFECT_DELAY = config.getInt("effects.radiation.effects_delay");
         RADIATION_DURATION = config.getInt("effects.radiation.duration");

@@ -8,14 +8,15 @@ import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.genife.adventbombs.Managers.ConfigManager.ROCKET_USAGE_COOLDOWN;
+
 public class CooldownManager {
-    public static final int DEFAULT_COOLDOWN = 5;
     private final Cache<UUID, Instant> cache = CacheBuilder.newBuilder()
-            .expireAfterWrite(DEFAULT_COOLDOWN, TimeUnit.SECONDS)
+            .expireAfterWrite(ROCKET_USAGE_COOLDOWN, TimeUnit.SECONDS)
             .build();
 
-    public void setCooldown(UUID key, Duration duration) {
-        cache.put(key, Instant.now().plus(duration));
+    public void setCooldown(UUID key) {
+        cache.put(key, Instant.now().plus(Duration.ofSeconds(ROCKET_USAGE_COOLDOWN)));
     }
 
     public Duration getRemainingCooldown(UUID key) {
