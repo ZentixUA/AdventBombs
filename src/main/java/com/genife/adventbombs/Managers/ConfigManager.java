@@ -66,7 +66,6 @@ public class ConfigManager {
     public static String ALARM_SOUND;
 
     private final AdventBombs instance = AdventBombs.getInstance();
-    private final CooldownManager cooldownManager = instance.getCooldownManager();
     private FileConfiguration config;
 
     public ConfigManager() {
@@ -211,6 +210,6 @@ public class ConfigManager {
         loadConfig();
         loadValues();
         // Ребилдим список кулдауна (вдруг пользователь изменил его продолжительность)
-        cooldownManager.configureCache();
+        instance.getCooldownManager().configureCache();
     }
 }
