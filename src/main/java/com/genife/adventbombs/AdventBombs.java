@@ -25,15 +25,15 @@ public class AdventBombs extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        // Инициализируем менеджер кулдауна команд
+        cooldownManager = new CooldownManager();
+        cooldownManager.configureCache();
         // Инициализируем конфиг
         configManager = new ConfigManager();
         // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен
         alarmManager = new AlarmManager();
-        // Инициализируем менеджер кулдауна команд
-        cooldownManager = new CooldownManager();
-        cooldownManager.configureCache();
 
         //noinspection DataFlowIssue
         this.getCommand("rocket").setExecutor(new RocketCommand());
