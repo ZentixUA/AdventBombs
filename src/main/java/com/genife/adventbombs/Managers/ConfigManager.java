@@ -138,7 +138,7 @@ public class ConfigManager {
         config.addDefault("sounds.alarm.sound", "minecraft:my_sounds.alarm_sound");
 
         config.options().copyDefaults(true);
-        config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!"));
+        config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!", "Названия звуков бери из ресурспака"));
         plugin.saveConfig();
     }
 
