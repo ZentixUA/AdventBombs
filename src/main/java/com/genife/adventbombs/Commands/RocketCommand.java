@@ -23,7 +23,7 @@ public class RocketCommand implements CommandExecutor {
     private final HashMap<Player, Boolean> playersConversations = new HashMap<>();
     private final AdventBombs instance = AdventBombs.getInstance();
     private final PasswordManager passwordManager = instance.getPasswordManager();
-    private final CooldownManager cooldownManager = new CooldownManager();
+    private final CooldownManager cooldownManager = instance.getCooldownManager();
 
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (args.length != 0) {
@@ -147,6 +147,7 @@ public class RocketCommand implements CommandExecutor {
                 }
 
                 instance.getConfigManager().reloadConfig();
+                cooldownManager.configureCache();
 
                 sender.sendMessage(MESSAGE_PREFIX + RELOAD_MESSAGE);
                 return true;

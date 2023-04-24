@@ -11,9 +11,13 @@ import java.util.concurrent.TimeUnit;
 import static com.genife.adventbombs.Managers.ConfigManager.ROCKET_USAGE_COOLDOWN;
 
 public class CooldownManager {
-    private final Cache<UUID, Instant> cache = CacheBuilder.newBuilder()
-            .expireAfterWrite(ROCKET_USAGE_COOLDOWN, TimeUnit.SECONDS)
-            .build();
+    private Cache<UUID, Instant> cache;
+
+    public void configureCache() {
+        cache = CacheBuilder.newBuilder()
+                .expireAfterWrite(ROCKET_USAGE_COOLDOWN, TimeUnit.SECONDS)
+                .build();
+    }
 
     public void setCooldown(UUID key) {
         cache.put(key, Instant.now().plus(Duration.ofSeconds(ROCKET_USAGE_COOLDOWN)));

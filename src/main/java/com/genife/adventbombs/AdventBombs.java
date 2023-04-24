@@ -5,6 +5,7 @@ import com.genife.adventbombs.Commands.RocketCompleter;
 import com.genife.adventbombs.Events.AlarmEvents;
 import com.genife.adventbombs.Managers.AlarmManager;
 import com.genife.adventbombs.Managers.ConfigManager;
+import com.genife.adventbombs.Managers.CooldownManager;
 import com.genife.adventbombs.Managers.PasswordManager;
 import com.genife.adventbombs.Runnables.DataActualize;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,8 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AdventBombs extends JavaPlugin {
     private static AdventBombs instance;
     private ConfigManager configManager;
-    private AlarmManager alarmManager;
     private PasswordManager passwordManager;
+    private AlarmManager alarmManager;
+    private CooldownManager cooldownManager;
 
 
     public static AdventBombs getInstance() {
@@ -29,6 +31,9 @@ public class AdventBombs extends JavaPlugin {
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен
         alarmManager = new AlarmManager(this);
+        // Инициализируем менеджер кулдауна команд
+        cooldownManager = new CooldownManager();
+        cooldownManager.configureCache();
 
         //noinspection DataFlowIssue
         this.getCommand("rocket").setExecutor(new RocketCommand());
@@ -40,6 +45,10 @@ public class AdventBombs extends JavaPlugin {
 
         // запускаем задачу, которая каждую секунду актуализирует данные (сирены, списки блокировок и т.д)
         new DataActualize().runTaskTimer(this, 40L, 20L);
+    }
+
+    public CooldownManager getCooldownManager() {
+        return cooldownManager;
     }
 
     public ConfigManager getConfigManager() {
