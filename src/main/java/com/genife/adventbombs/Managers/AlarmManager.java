@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.genife.adventbombs.Managers.ConfigManager.ALARM_PLACE_WORD;
-import static com.genife.adventbombs.Managers.ConfigManager.DEBUG_BROKEN_SIREN_MESSAGE;
+import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class AlarmManager implements Listener {
     private final AdventBombs instance;
@@ -96,7 +95,7 @@ public class AlarmManager implements Listener {
 
     public void removeAlarmsList(List<Location> blocksToRemove) {
         for (Location location : blocksToRemove) {
-            removeAlarmIfExists(location, null, DEBUG_BROKEN_SIREN_MESSAGE.replace("{location}", location.toString()));
+            removeAlarmIfExists(location, null, MESSAGE_PREFIX + DEBUG_BROKEN_SIREN_MESSAGE.replace("{location}", location.toString()));
         }
     }
 

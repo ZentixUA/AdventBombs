@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.UUID;
 
 import static com.genife.adventbombs.Managers.ConfigManager.DEBUG_AUTO_UNBLOCK_MESSAGE;
+import static com.genife.adventbombs.Managers.ConfigManager.MESSAGE_PREFIX;
 
 public class DataActualize extends BukkitRunnable {
     private final PasswordManager passwordManager = AdventBombs.getInstance().getPasswordManager();
@@ -22,7 +23,7 @@ public class DataActualize extends BukkitRunnable {
             // если время блокировки игрока из списка прошло, то разблокируем
             if (System.currentTimeMillis() >= blocked.endTime()) {
                 passwordManager.unblockPlayer(playerUUID);
-                Bukkit.getLogger().info(DEBUG_AUTO_UNBLOCK_MESSAGE.replace("{player}", blocked.playerName()));
+                Bukkit.getLogger().info(MESSAGE_PREFIX + DEBUG_AUTO_UNBLOCK_MESSAGE.replace("{player}", blocked.playerName()));
             }
         }
     }

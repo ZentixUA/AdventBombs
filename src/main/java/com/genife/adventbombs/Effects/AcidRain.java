@@ -38,7 +38,7 @@ public class AcidRain extends BukkitRunnable {
 
         // если по этому миру уже есть кислотный дождь, то мы его продлеваем перезапустив.
         if (!taskIds.isEmpty()) {
-            Bukkit.getLogger().info(DEBUG_ACID_RAIN_FOUND_MESSAGE.replace("{world}", world.getName()));
+            Bukkit.getLogger().info(MESSAGE_PREFIX + DEBUG_ACID_RAIN_FOUND_MESSAGE.replace("{world}", world.getName()));
             for (int taskId : taskIds) {
                 Bukkit.getScheduler().cancelTask(taskId);
             }
