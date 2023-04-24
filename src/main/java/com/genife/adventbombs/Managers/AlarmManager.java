@@ -23,13 +23,12 @@ import java.util.stream.Collectors;
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class AlarmManager implements Listener {
-    private final AdventBombs instance;
+    private final AdventBombs instance = AdventBombs.getInstance();
     private final List<AlarmElement> alarms = new ArrayList<>();
     private final List<BukkitRunnable> sirenTasks = new ArrayList<>();
     private final Gson gson;
 
-    public AlarmManager(AdventBombs instance) {
-        this.instance = instance;
+    public AlarmManager() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         loadAlarms();
     }

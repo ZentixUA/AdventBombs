@@ -65,18 +65,18 @@ public class ConfigManager {
     public static String INVALID_PASS_BROADCAST_SOUND;
     public static String ALARM_SOUND;
 
-    private final AdventBombs plugin;
+    private final AdventBombs instance = AdventBombs.getInstance();
+    private final CooldownManager cooldownManager = instance.getCooldownManager();
     private FileConfiguration config;
 
-    public ConfigManager(AdventBombs plugin) {
-        this.plugin = plugin;
+    public ConfigManager() {
         loadConfig();
         loadValues();
     }
 
     public void loadConfig() {
         // Берём значения из конфига или создаём его
-        config = plugin.getConfig();
+        config = instance.getConfig();
 
         config.addDefault("rockets.distance_to_move_with_y", 340);
         config.addDefault("rockets.flying_height", 250);
@@ -141,7 +141,7 @@ public class ConfigManager {
 
         config.options().copyDefaults(true);
         config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!", "Названия звуков бери из ресурс пака или игры"));
-        plugin.saveConfig();
+        instance.saveConfig();
     }
 
     private void loadValues() {
@@ -207,8 +207,10 @@ public class ConfigManager {
     }
 
     public void reloadConfig() {
-        plugin.reloadConfig();
+        instance.reloadConfig();
         loadConfig();
         loadValues();
+        // Ребилдим список кулдауна (вдруг пользователь изменил его продолжительность)
+        cooldownManager.configureCache();
     }
 }

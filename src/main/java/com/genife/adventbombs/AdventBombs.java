@@ -26,11 +26,11 @@ public class AdventBombs extends JavaPlugin {
     public void onEnable() {
         instance = this;
         // Инициализируем конфиг
-        configManager = new ConfigManager(this);
+        configManager = new ConfigManager();
         // Инициализируем менеджер паролей
         passwordManager = new PasswordManager();
         // Инициализируем менеджер сирен
-        alarmManager = new AlarmManager(this);
+        alarmManager = new AlarmManager();
         // Инициализируем менеджер кулдауна команд
         cooldownManager = new CooldownManager();
         cooldownManager.configureCache();
