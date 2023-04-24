@@ -65,7 +65,7 @@ public class AlarmEvents implements Listener {
 
         if (block.getType() == Material.JUKEBOX || block.getState() instanceof Sign) {
             Location block_location = block.getLocation();
-            alarmManager.removeAlarmIfExists(block_location, event.getPlayer(), ALARM_BREAK_MESSAGE);
+            alarmManager.removeAlarmIfExists(block_location, event.getPlayer(), MESSAGE_PREFIX + ALARM_BREAK_MESSAGE);
         }
     }
 }
