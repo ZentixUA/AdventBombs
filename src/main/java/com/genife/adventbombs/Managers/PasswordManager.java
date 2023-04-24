@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.genife.adventbombs.Managers.ConfigManager.NUCLEAR_START_PASS;
-import static com.genife.adventbombs.Managers.ConfigManager.SCULK_START_PASS;
+import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class PasswordManager {
     private final List<BlockedPlayerElement> blockedPlayers = new ArrayList<>();
@@ -21,7 +20,7 @@ public class PasswordManager {
             return true;
         } else {
             // ставим время конца блокировки на 12 часов вперёд (проверяем через canUseCommand()), возвращаем false
-            blockedPlayers.add(new BlockedPlayerElement(player.getUniqueId(), player.getName(), System.currentTimeMillis() + (12 * 60 * 60 * 1000)));
+            blockedPlayers.add(new BlockedPlayerElement(player.getUniqueId(), player.getName(), System.currentTimeMillis() + (BLOCKING_DURATION * 1000)));
             return false;
         }
     }
