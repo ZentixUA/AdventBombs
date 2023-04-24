@@ -5,20 +5,20 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import static com.genife.adventbombs.Managers.ConfigManager.MAX_FLY_DURATION;
+
 public abstract class Rocket {
     private Location rocketLocation;
     private Location targetLocation;
     private World rocketWorld;
-    private int beam;
-    private int maxBeam;
+    private int duration;
     private RocketState state;
 
-    public Rocket(Player sender, Location targetLocation, int maxBeam) {
+    public Rocket(Player sender, Location targetLocation) {
         setRocketLocation(sender.getLocation());
         setTargetLocation(targetLocation);
         setRocketWorld(sender.getWorld());
-        setBeam(0);
-        setMaxBeam(maxBeam);
+        setDuration(0);
     }
 
     public boolean isDown() {
@@ -67,23 +67,19 @@ public abstract class Rocket {
         this.state = state;
     }
 
-    public boolean reachMaxBeam() {
-        return beam >= maxBeam;
+    public boolean reachMaxDuration() {
+        return duration >= MAX_FLY_DURATION * 20L;
     }
 
-    public void setMaxBeam(int maxBeam) {
-        this.maxBeam = maxBeam;
+    public int getDuration() {
+        return duration;
     }
 
-    public int getBeam() {
-        return beam;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public void setBeam(int beam) {
-        this.beam = beam;
-    }
-
-    public void addBeam() {
-        this.setBeam(getBeam() + 1);
+    public void addDuration() {
+        this.setDuration(getDuration() + 1);
     }
 }

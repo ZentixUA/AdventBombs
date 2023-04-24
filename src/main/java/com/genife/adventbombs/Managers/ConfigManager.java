@@ -8,6 +8,10 @@ import java.util.List;
 public class ConfigManager {
     public static int DISTANCE_TO_MOVE_ROCKET_WITH_Y;
     public static int FLYING_ROCKET_HEIGHT;
+    public static double FLYING_ROCKET_SPEED;
+    public static double MOVE_UP_SPEED;
+    public static double MOVE_WITH_Y_SPEED;
+    public static int MAX_FLY_DURATION;
     public static String NUCLEAR_START_PASS;
     public static String SCULK_START_PASS;
     public static Integer ROCKET_USAGE_COOLDOWN;
@@ -79,6 +83,10 @@ public class ConfigManager {
 
         config.addDefault("rockets.distance_to_move_with_y", 340);
         config.addDefault("rockets.flying_height", 250);
+        config.addDefault("rockets.flying_speed", 5.8);
+        config.addDefault("rockets.move_up_speed", 0.8);
+        config.addDefault("rockets.move_with_y_speed", 0.8);
+        config.addDefault("rockets.max_fly_duration", 1200);
         config.addDefault("rockets.nuclear.password", "nuclear_start_pass");
         config.addDefault("rockets.sculk.password", "sculk_start_pass");
         config.addDefault("rockets.cooldown", 5);
@@ -118,7 +126,7 @@ public class ConfigManager {
         config.addDefault("messages.alarm.start_broadcast", "§cВНИМАНИЕ! ОБЪЯВЛЕНА ВОЗДУШНАЯ ТРЕВОГА! ВСЕМ ПРОЙТИ В УКРЫТИЕ!");
         config.addDefault("messages.alarm.stop_broadcast", "§aВнимание! Отбой воздушной тревоги! Все ракеты достигли целей!");
         config.addDefault("messages.alarm.nuclear.detonated", "§fМежконтинентальная ядерная ракета произвела детонацию!");
-        config.addDefault("messages.alarm.sculk.detonated", "§fСкалковая ракета достигла цели!");
+        config.addDefault("messages.alarm.sculk.detonated", "§fСкалковая ракета произвела детонацию!");
 
         config.addDefault("messages.effects.acid_rain.start", "§fСообщается о начале §aкислотного дождя §fв мире {world}. Все в укрытия!");
         config.addDefault("messages.effects.acid_rain.stop", "§aКислотный дождь §fзакончился в мире {world}. Можно выходить из укрытий, будьте осторожны!");
@@ -139,13 +147,17 @@ public class ConfigManager {
         config.addDefault("sounds.alarm.sound", "minecraft:my_sounds.alarm_sound");
 
         config.options().copyDefaults(true);
-        config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!", "Названия звуков бери из ресурс пака или игры"));
+        config.options().setHeader(List.of("На данный момент, конфиг в стадии тестирования. Репорти ошибки, если найдёшь", "Все параметры, которые так или иначе связаны со временем указывай в СЕКУНДАХ!", "Названия звуков бери из ресурс пака или игры", "MOVE WITH Y - это когда ракета снижается. Но бывает так, что цель находится выше самой ракеты, потому говорить, что она снижается - не корректно"));
         instance.saveConfig();
     }
 
     private void loadValues() {
         DISTANCE_TO_MOVE_ROCKET_WITH_Y = config.getInt("rockets.distance_to_move_with_y");
         FLYING_ROCKET_HEIGHT = config.getInt("rockets.flying_height");
+        FLYING_ROCKET_SPEED = config.getDouble("rockets.flying_speed");
+        MOVE_UP_SPEED = config.getDouble("rockets.move_up_speed");
+        MOVE_WITH_Y_SPEED = config.getDouble("rockets.move_with_y_speed");
+        MAX_FLY_DURATION = config.getInt("rockets.max_fly_duration");
         NUCLEAR_START_PASS = config.getString("rockets.nuclear.password");
         SCULK_START_PASS = config.getString("rockets.sculk.password");
         ROCKET_USAGE_COOLDOWN = config.getInt("rockets.cooldown");

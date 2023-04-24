@@ -12,7 +12,7 @@ public class RocketRunnable extends BukkitRunnable {
 
     public RocketRunnable(Rocket rocket) {
         setRocket(rocket);
-        activeRockets.add(this); // добавляем созданный инстанс в список активных ракет
+        activeRockets.add(this); // добавляем созданную ракету в список активных ракет
     }
 
     public static int getActiveRocketCount() {

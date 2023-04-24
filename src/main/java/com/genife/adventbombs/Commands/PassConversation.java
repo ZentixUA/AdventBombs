@@ -71,7 +71,7 @@ public class PassConversation extends StringPrompt {
         World senderWorld = rocketSender.getWorld();
         Location targetLocation = senderWorld.getHighestBlockAt(cordsX, cordsZ).getLocation();
 
-        RocketRunnable task = new RocketRunnable(new NuclearRocket(rocketSender, rocketType, targetLocation, explosionPower, 24000));
+        RocketRunnable task = new RocketRunnable(new NuclearRocket(rocketSender, rocketType, targetLocation, explosionPower));
         task.runTaskTimer(instance, 0L, 0L);
     }
 

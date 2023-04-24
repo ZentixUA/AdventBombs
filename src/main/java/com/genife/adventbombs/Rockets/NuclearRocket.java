@@ -30,8 +30,8 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 
-    public NuclearRocket(Player rocketSender, String rocketType, Location targetLocation, int explosionPower, int maxBeam) {
-        super(rocketSender, targetLocation, maxBeam);
+    public NuclearRocket(Player rocketSender, String rocketType, Location targetLocation, int explosionPower) {
+        super(rocketSender, targetLocation);
         this.explosionPower = explosionPower;
         this.rocketType = rocketType;
     }
@@ -42,13 +42,13 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
 
         // проверка на совпадение одно из условий для детонации
-        if ((reachMaxBeam() || inBlock() || (distanceToTargetLoc <= 1 && isDown())) && getBeam() > MIN_BEAM) {
+        if ((reachMaxDuration() || inBlock() || (distanceToTargetLoc <= 1 && isDown())) && getDuration() > MIN_BEAM) {
             explode();
             return;
         }
 
         // движение ракеты, логика в зависимости от высоты
-        if (getBeam() == 0) {
+        if (getDuration() == 0) {
             getRocketLocation().setPitch(-90);
             new CreateSound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
 
@@ -74,7 +74,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
                 if (getState() != RocketState.FLYING) {
                     setState(RocketState.FLYING);
                 }
-                getRocketLocation().add(findPath(false).multiply(5.8));
+                getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
             }
         } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
             new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
@@ -83,7 +83,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
 
         getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
         getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
-        addBeam();
+        addDuration();
     }
 
     @Override
@@ -166,7 +166,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
     @Override
     public void moveUp() {
         Vector dir = getRocketLocation().getDirection();
-        dir.multiply(0.8);
+        dir.multiply(MOVE_UP_SPEED);
         // поднимаем ракету
         getRocketLocation().add(dir);
     }
@@ -179,7 +179,7 @@ public class NuclearRocket extends Rocket implements Selfguided, Soared, Exploda
         // обновляем целевую локацию с актуальным Y
         getTargetLocation().setY(getRocketWorld().getHighestBlockYAt(getTargetLocation()));
         // двигаем ракету к цели
-        getRocketLocation().add(findPath(true));
+        getRocketLocation().add(findPath(true).multiply(MOVE_WITH_Y_SPEED));
     }
 
     public Vector findPath(boolean includeY) {
