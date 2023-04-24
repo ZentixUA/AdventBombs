@@ -84,8 +84,8 @@ public class ConfigManager {
         config.addDefault("rockets.distance_to_move_with_y", 340);
         config.addDefault("rockets.flying_height", 250);
         config.addDefault("rockets.flying_speed", 5.8);
-        config.addDefault("rockets.move_up_speed", 0.8);
-        config.addDefault("rockets.move_with_y_speed", 0.8);
+        config.addDefault("rockets.move_up_speed", 1.0);
+        config.addDefault("rockets.move_with_y_speed", 1.0);
         config.addDefault("rockets.max_fly_duration", 1200);
         config.addDefault("rockets.nuclear.password", "nuclear_start_pass");
         config.addDefault("rockets.sculk.password", "sculk_start_pass");
