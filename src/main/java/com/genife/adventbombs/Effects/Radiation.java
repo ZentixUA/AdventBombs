@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import static com.genife.adventbombs.Managers.ConfigManager.*;
@@ -75,12 +76,14 @@ public class Radiation extends BukkitRunnable {
             for (Map.Entry<Location, Map<Player, Long>> entry : radiationZone.entrySet()) {
                 Map<Player, Long> playersInZone = entry.getValue();
 
-                for (Map.Entry<Player, Long> playerEntry : playersInZone.entrySet()) {
+                Iterator<Map.Entry<Player, Long>> iterator = playersInZone.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<Player, Long> playerEntry = iterator.next();
                     Player player = playerEntry.getKey();
                     long enterTime = playerEntry.getValue();
 
-                    if ((!player.getWorld().getName().equals(world.getName())) || !player.isOnline()) {
-                        playersInZone.remove(player);
+                    if (!(player.isOnline() && player.getWorld().getName().equals(world.getName()))) {
+                        iterator.remove();
                         continue;
                     }
 
