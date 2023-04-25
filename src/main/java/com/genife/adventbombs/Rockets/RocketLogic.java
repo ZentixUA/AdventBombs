@@ -42,7 +42,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
 
         // проверка на совпадение одно из условий для детонации
-        if ((reachMaxDuration() || inBlock() || (distanceToTargetLoc <= 1 && isDown())) && getDuration() > MIN_BEAM) {
+        if (reachMaxDuration() || inBlock() || (distanceToTargetLoc <= 1 && isMovingWithY())) {
             explode();
             return;
         }
@@ -55,7 +55,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             new CreateSound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
         }
 
-        if (getRocketLocation().getBlockY() < FLYING_ROCKET_HEIGHT && !isDown()) {
+        if (getRocketLocation().getBlockY() < FLYING_ROCKET_HEIGHT && !isMovingWithY()) {
             if (getState() != RocketState.MOVING_UP) {
                 setState(RocketState.MOVING_UP);
             }
