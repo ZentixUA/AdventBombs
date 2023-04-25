@@ -39,7 +39,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
     public void move() {
         // получаем дистанцию от ракеты к целевой локации
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
-        System.out.println(distanceToTargetLoc);
 
         // Проверка на совпадение одно из условий для детонации. Такое сравнивание
         // дистанции необходимо, что бы ракета случайно не перемещалась туда-сюда
