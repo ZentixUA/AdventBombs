@@ -49,6 +49,8 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
         // движение ракеты, логика в зависимости от высоты
         if (getDuration() == 0) {
+            // .setPitch() обязателен, ибо он определяет под каким углом будет ракета при взлёте
+            // в этом случае ровно вверх по Y (в сторону увеличения)
             getRocketLocation().setPitch(-90);
             new CreateSound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
         }
@@ -110,7 +112,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
             int soundPlayRange = explosionPower * 8;
 
-            new CreateSound(ROCKET_DETONATE_SOUND, soundPlayRange, getRocketLocation());
+            new CreateSound(ROCKET_DETONATE_SOUND, soundPlayRange, finalRocketLocation);
 
             catastrophe(finalRocketLocation);
 
@@ -190,19 +192,12 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
         double dX = from.getX() - to.getX();
         double dZ = from.getZ() - to.getZ();
         double yaw = Math.atan2(dZ, dX);
-        double pitch;
-        double dY;
-        double sqrt = Math.sqrt(dZ * dZ + dX * dX);
-        if (includeY) {
-            dY = from.getY() - to.getY();
-            pitch = Math.atan2(sqrt, dY) + Math.PI;
-        } else {
-            // ракета придерживается своей высоты в таком случае
-            pitch = Math.atan2(sqrt, 0) + Math.PI;
-        }
+        double sqrt = Math.sqrt(dX * dX + dZ * dZ);
+        double dY = from.getY() - to.getY();
+        double pitch = Math.atan2(sqrt, dY) + Math.PI;
         double X = Math.sin(pitch) * Math.cos(yaw);
-        double Y = Math.sin(pitch) * Math.sin(yaw);
-        double Z = Math.cos(pitch);
-        return new Vector(X, Z, Y);
+        double Y = includeY ? Math.cos(pitch) : 0; // Задаем Y в зависимости от includeY
+        double Z = Math.sin(pitch) * Math.sin(yaw);
+        return new Vector(X, Y, Z);
     }
 }
