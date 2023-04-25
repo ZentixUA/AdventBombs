@@ -24,13 +24,13 @@ import java.util.Objects;
 
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
-public class NuclearRocket extends Rocket implements Selfguided, Soared, Explodable {
+public class RocketLogic extends Rocket implements Selfguided, Soared, Explodable {
     private static final int MIN_BEAM = 20;
     private final String rocketType;
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 
-    public NuclearRocket(Player rocketSender, String rocketType, Location targetLocation, int explosionPower) {
+    public RocketLogic(Player rocketSender, String rocketType, Location targetLocation, int explosionPower) {
         super(rocketSender, targetLocation);
         this.explosionPower = explosionPower;
         this.rocketType = rocketType;

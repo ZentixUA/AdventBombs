@@ -6,7 +6,7 @@
 
     <groupId>AdventBombs</groupId>
     <artifactId>AdventBombs</artifactId>
-    <version>4.2</version>
+    <version>4.3</version>
     <packaging>jar</packaging>
 
     <name>AdventBombs</name>
