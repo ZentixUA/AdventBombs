@@ -60,8 +60,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
                 setState(RocketState.MOVING_UP);
             }
             moveUp();
-        }
-        else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
+        } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
             new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
 
             // Вычисляем отклонение координат X, Z между локациями ракеты и цели
@@ -79,8 +78,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
                 }
                 getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
             }
-        }
-        else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
+        } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
             new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
             moveWithY();
         }
