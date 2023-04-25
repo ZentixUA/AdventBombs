@@ -47,8 +47,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             return;
         }
 
-        System.out.println(getRocketLocation().getBlockY());
-
         // движение ракеты, логика в зависимости от высоты
         if (getDuration() == 0) {
             getRocketLocation().setPitch(-90);
