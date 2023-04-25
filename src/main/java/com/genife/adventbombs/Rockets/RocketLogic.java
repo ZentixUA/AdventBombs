@@ -42,7 +42,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
         // Проверка на совпадение одно из условий для детонации. Такое сравнивание
         // дистанции необходимо, что бы ракета случайно не перемещалась туда-сюда
-        // если её цель в бездне, т.е что бы не пропустила финальную точку, так сказать
+        // если её цель в бездне, т.е, что бы не пропустила финальную точку, так сказать
         if (reachMaxDuration() || inBlock() || (distanceToTargetLoc <= MOVE_WITH_Y_SPEED && isMovingWithY())) {
             explode();
             return;
