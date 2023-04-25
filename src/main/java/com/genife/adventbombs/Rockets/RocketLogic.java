@@ -25,7 +25,6 @@ import java.util.Objects;
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class RocketLogic extends Rocket implements Selfguided, Soared, Explodable {
-    private static final int MIN_BEAM = 20;
     private final String rocketType;
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
@@ -40,9 +39,12 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
     public void move() {
         // получаем дистанцию от ракеты к целевой локации
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
+        System.out.println(distanceToTargetLoc);
 
-        // проверка на совпадение одно из условий для детонации
-        if (reachMaxDuration() || inBlock() || (distanceToTargetLoc <= 1 && isMovingWithY())) {
+        // Проверка на совпадение одно из условий для детонации. Такое сравнивание
+        // дистанции необходимо, что бы ракета случайно не перемещалась туда-сюда
+        // если её цель в бездне, т.е что бы не пропустила финальную точку, так сказать
+        if (reachMaxDuration() || inBlock() || (distanceToTargetLoc <= MOVE_WITH_Y_SPEED && isMovingWithY())) {
             explode();
             return;
         }
