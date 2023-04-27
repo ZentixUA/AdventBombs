@@ -8,7 +8,6 @@ public class PlaySound {
     public PlaySound(Location playLocation, int playRange, String soundName, Player[] targets) {
         for (Player target : targets) {
             target.playSound(target.getLocation(), soundName, convertForSound((float) target.getLocation().distance(playLocation), playRange), 1);
-            System.out.println(target.getLocation().distance(playLocation));
         }
     }
 
