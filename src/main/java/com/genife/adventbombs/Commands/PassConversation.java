@@ -4,7 +4,7 @@ import com.genife.adventbombs.AdventBombs;
 import com.genife.adventbombs.Managers.PasswordManager;
 import com.genife.adventbombs.Rockets.RocketLogic;
 import com.genife.adventbombs.Runnables.RocketRunnable;
-import com.genife.adventbombs.SoundUtils.CreateSound;
+import com.genife.adventbombs.SoundUtils.PlaySound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -85,7 +85,7 @@ public class PassConversation extends StringPrompt {
             public void run() {
                 List<Location> allAlarms = instance.getAlarmManager().getAlarmsLocations();
                 for (Location location : allAlarms) {
-                    new CreateSound(ALARM_SOUND, 200, location);
+                    new PlaySound(ALARM_SOUND, 200, location);
                 }
             }
         };

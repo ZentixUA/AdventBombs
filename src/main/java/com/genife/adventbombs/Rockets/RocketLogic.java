@@ -9,7 +9,7 @@ import com.genife.adventbombs.Rockets.engine.RocketState;
 import com.genife.adventbombs.Rockets.engine.Selfguided;
 import com.genife.adventbombs.Rockets.engine.Soared;
 import com.genife.adventbombs.Runnables.RocketRunnable;
-import com.genife.adventbombs.SoundUtils.CreateSound;
+import com.genife.adventbombs.SoundUtils.PlaySound;
 import com.genife.adventbombs.Tools.getNearlyBlocks;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -55,7 +55,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             // .setPitch() обязателен, ибо он определяет под каким углом будет ракета при взлёте
             // в этом случае ровно вверх по Y (в сторону увеличения)
             getRocketLocation().setPitch(-90);
-            new CreateSound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
+            new PlaySound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
         }
 
         if (getRocketLocation().getBlockY() < FLYING_ROCKET_HEIGHT && !isMovingWithY()) {
@@ -64,7 +64,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             }
             moveUp();
         } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
-            new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
+            new PlaySound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
 
             // Вычисляем отклонение координат X, Z между локациями ракеты и цели
             int differenceX = Math.abs(getRocketLocation().getBlockX() - getTargetLocation().getBlockX());
@@ -82,7 +82,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
                 getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
             }
         } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
-            new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
+            new PlaySound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
             moveWithY();
         }
         addDuration();
@@ -110,7 +110,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
             int soundPlayRange = explosionPower * 8;
 
-            new CreateSound(ROCKET_DETONATE_SOUND, soundPlayRange, finalRocketLocation);
+            new PlaySound(ROCKET_DETONATE_SOUND, soundPlayRange, finalRocketLocation);
 
             catastrophe(finalRocketLocation);
 
@@ -137,7 +137,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             world.spawnEntity(wardenLocation, EntityType.WARDEN);
 
             // проигрываем звук активации портала в Энд всем в радиусе взрыва (мощности)
-            new CreateSound("minecraft:block.end_portal.spawn", explosionPower, wardenLocation);
+            new PlaySound("minecraft:block.end_portal.spawn", explosionPower, wardenLocation);
 
             // запускаем раннаблу спавна лисиц для распространения
             BukkitRunnable task = new Sculk(catalystLocation, explosionPower);
