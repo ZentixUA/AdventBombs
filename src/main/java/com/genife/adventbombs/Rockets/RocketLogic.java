@@ -37,6 +37,8 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
     @Override
     public void move() {
+        getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
+        getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
         // получаем дистанцию от ракеты к целевой локации
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
 
@@ -83,9 +85,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             new CreateSound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
             moveWithY();
         }
-
-        getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
-        getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
         addDuration();
     }
 

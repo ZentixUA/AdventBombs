@@ -27,9 +27,7 @@ public class Sculk extends BukkitRunnable {
     // главная функция
     @Override
     public void run() {
-        repeats++;
-
-        if (repeats == 1) {
+        if (repeats == 0) {
             // подгружаем чанк, добавляем его тикет
             CompletableFuture<Chunk> sculk_chunk = centerWorld.getChunkAtAsync(centerLocation);
             sculk_chunk.thenAccept(chunk -> centerWorld.getChunkAtAsync(centerLocation, chunk.addPluginChunkTicket(AdventBombs.getInstance())));
@@ -45,6 +43,7 @@ public class Sculk extends BukkitRunnable {
         }
 
         spawnMobs();
+        repeats++;
     }
 
     // спавним мобов на локации
