@@ -186,17 +186,8 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
     }
 
     public Vector findPath(boolean includeY) {
-        Location from = getRocketLocation();
-        Location to = getTargetLocation();
-        double dX = from.getX() - to.getX();
-        double dZ = from.getZ() - to.getZ();
-        double yaw = Math.atan2(dZ, dX);
-        double sqrt = Math.sqrt(dX * dX + dZ * dZ);
-        double dY = from.getY() - to.getY();
-        double pitch = Math.atan2(sqrt, dY) + Math.PI;
-        double X = Math.sin(pitch) * Math.cos(yaw);
-        double Y = includeY ? Math.cos(pitch) : 0; // Задаем Y в зависимости от includeY
-        double Z = Math.sin(pitch) * Math.sin(yaw);
-        return new Vector(X, Y, Z);
+        Location targetLocation = getTargetLocation().clone();
+        if (!includeY) targetLocation.setY(getRocketLocation().getY());
+        return targetLocation.toVector().subtract(getRocketLocation().toVector()).normalize();
     }
 }
