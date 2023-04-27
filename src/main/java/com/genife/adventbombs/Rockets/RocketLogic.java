@@ -72,7 +72,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
             // Проверяем, совпадают ли примерно X и Z, если да - начинаем движение с учётом Y до того момента,
             // пока итоговая дистанция между локациями ракеты и цели не станет меньше MAX_DISTANCE_TO_TARGET
-            if (differenceX <= 3 && differenceZ <= 3) {
+            if (differenceX <= FLYING_ROCKET_SPEED && differenceZ <= FLYING_ROCKET_SPEED) {
                 moveWithY();
             } else {
                 // в ином (нормальном) случае двигаемся по одной высоте - MIN_HEIGHT:
