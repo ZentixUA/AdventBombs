@@ -21,6 +21,10 @@ public abstract class Rocket {
         setDuration(0);
     }
 
+    public boolean isFlying() {
+        return getState() == RocketState.FLYING;
+    }
+
     public boolean isMovingWithY() {
         return getState() == RocketState.MOVING_WITH_Y;
     }

@@ -50,7 +50,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             return;
         }
 
-        // движение ракеты, логика в зависимости от высоты
+        // Действия в зависимости от высоты, дистанции и других факторов
         if (getDuration() == 0) {
             // .setPitch() обязателен, ибо он определяет под каким углом будет ракета при взлёте
             // в этом случае ровно вверх по Y (в сторону увеличения)
@@ -58,21 +58,22 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
             new PlaySound(ROCKET_START_FLYING_SOUND, 200, getRocketLocation());
         }
 
-        if (getRocketLocation().getBlockY() < FLYING_ROCKET_HEIGHT && !isMovingWithY()) {
+        if (getRocketLocation().getBlockY() < FLYING_ROCKET_HEIGHT && !isMovingWithY() && !isFlying()) {
             if (getState() != RocketState.MOVING_UP) {
                 setState(RocketState.MOVING_UP);
             }
             moveUp();
-        } else if (distanceToTargetLoc >= DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
+        } else {
             new PlaySound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
 
             // Вычисляем отклонение координат X, Z между локациями ракеты и цели
             int differenceX = Math.abs(getRocketLocation().getBlockX() - getTargetLocation().getBlockX());
             int differenceZ = Math.abs(getRocketLocation().getBlockZ() - getTargetLocation().getBlockZ());
 
-            // Проверяем, совпадают ли примерно X и Z, если да - начинаем движение с учётом Y до того момента,
+            // Проверяем, меньше ли наша дистанция дистанции для движения с учётом Y
+            // Ещё проверяем, совпадают ли примерно X и Z, если да - начинаем движение с учётом Y до того момента,
             // пока итоговая дистанция между локациями ракеты и цели не станет меньше MAX_DISTANCE_TO_TARGET
-            if (differenceX <= FLYING_ROCKET_SPEED && differenceZ <= FLYING_ROCKET_SPEED) {
+            if (distanceToTargetLoc <= DISTANCE_TO_MOVE_ROCKET_WITH_Y || (differenceX <= FLYING_ROCKET_SPEED && differenceZ <= FLYING_ROCKET_SPEED)) {
                 moveWithY();
             } else {
                 // в ином (нормальном) случае двигаемся по одной высоте - MIN_HEIGHT:
@@ -81,9 +82,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
                 }
                 getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
             }
-        } else if (distanceToTargetLoc < DISTANCE_TO_MOVE_ROCKET_WITH_Y) {
-            new PlaySound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
-            moveWithY();
         }
         addDuration();
     }
