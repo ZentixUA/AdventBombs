@@ -72,7 +72,7 @@ public class PassConversation extends StringPrompt {
         Location targetLocation = senderWorld.getHighestBlockAt(cordsX, cordsZ).getLocation();
 
         RocketRunnable task = new RocketRunnable(new RocketLogic(rocketSender, rocketType, targetLocation, explosionPower));
-        task.runTaskTimer(instance, 0L, 0L);
+        task.runTaskTimer(instance, 0, 1);
     }
 
     // отправляем сообщения после пуска ракеты, начинаем проигрывать звук воздушной тревоги на их локациях
