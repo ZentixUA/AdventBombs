@@ -139,7 +139,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
 
             // запускаем раннаблу спавна лисиц для распространения
             BukkitRunnable task = new Sculk(catalystLocation, explosionPower);
-            task.runTaskTimer(instance, 0L, 0L);
+            task.runTaskTimer(instance, 0, 1);
         }
     }
 
@@ -155,7 +155,7 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
     private void catastrophe(Location explosionCenter) {
         new Radiation(explosionCenter, explosionPower).runTask(instance);
         if (explosionPower >= 50) {
-            new AcidRain(getRocketWorld()).runTaskLater(instance, ACID_RAIN_DELAY * 20L);
+            new AcidRain(getRocketWorld()).runTaskLater(instance, ACID_RAIN_DELAY * 20);
         }
     }
 

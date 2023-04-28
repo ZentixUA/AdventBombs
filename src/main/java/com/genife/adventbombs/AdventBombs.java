@@ -43,7 +43,7 @@ public class AdventBombs extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AlarmEvents(), this);
 
         // запускаем задачу, которая каждую секунду актуализирует данные (сирены, списки блокировок и т.д)
-        new DataActualize().runTaskTimer(this, 40L, 20L);
+        new DataActualize().runTaskTimer(this, 40, 20);
     }
 
     public CooldownManager getCooldownManager() {

@@ -52,8 +52,8 @@ public class AcidRain extends BukkitRunnable {
         world.setWeatherDuration(8 * 60 * 20);
 
         // запускаем задачи
-        int acidRainTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new AcidRainEffect(world), 0L, 20L);
-        int stopAcidRainTaskId = Bukkit.getScheduler().runTaskLater(instance, new StopAcidRain(world, acidRainTasks), ACID_RAIN_DURATION * 20L).getTaskId();
+        int acidRainTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new AcidRainEffect(world), 0, 20);
+        int stopAcidRainTaskId = Bukkit.getScheduler().runTaskLater(instance, new StopAcidRain(world, acidRainTasks), ACID_RAIN_DURATION * 20).getTaskId();
 
         // добавляем их id в список id`шек
         taskIds.add(acidRainTaskId);

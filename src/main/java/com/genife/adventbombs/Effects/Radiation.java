@@ -39,9 +39,9 @@ public class Radiation extends BukkitRunnable {
         Bukkit.broadcast(Component.text(MESSAGE_PREFIX + RADIATION_START_MESSAGE.replace("{cords}", cords).replace("{world}", explosionCenter.getWorld().getName())));
 
         // Создаем таск и запускаем его
-        int radiationTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new RadiationEffect(explosionCenter, radiationRadius, explosionPower, radiationZone), 0L, 20L);
+        int radiationTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new RadiationEffect(explosionCenter, radiationRadius, explosionPower, radiationZone), 0, 20);
         // Завершаем задачу радиации через 7 минут
-        Bukkit.getScheduler().runTaskLater(instance, new StopRadiation(radiationTaskId, explosionCenter, radiationZone), RADIATION_DURATION * 20L);
+        Bukkit.getScheduler().runTaskLater(instance, new StopRadiation(radiationTaskId, explosionCenter, radiationZone), RADIATION_DURATION * 20);
     }
 
     // эта задача добавляет/удаляет жертв радиации из списка
