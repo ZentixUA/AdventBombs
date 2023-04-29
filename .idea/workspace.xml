@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3669251f-590f-41c2-8137-6b41866e78a3" name="Changes" comment="Переместил explosionPower в класс Rocket">
+    <list default="true" id="3669251f-590f-41c2-8137-6b41866e78a3" name="Changes" comment="интерестинг от идеи">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682783604229</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="интерестинг от идеи">
+      <created>1682784400881</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1682784400881</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -104,6 +111,7 @@
     <MESSAGE value="4.7" />
     <MESSAGE value="Чуть импрувов" />
     <MESSAGE value="Переместил explosionPower в класс Rocket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Переместил explosionPower в класс Rocket" />
+    <MESSAGE value="интерестинг от идеи" />
+    <option name="LAST_COMMIT_MESSAGE" value="интерестинг от идеи" />
   </component>
 </project>
