@@ -2,7 +2,7 @@ package com.genife.adventbombs.Rockets;
 
 import com.genife.adventbombs.AdventBombs;
 import com.genife.adventbombs.Effects.Sculk;
-import com.genife.adventbombs.Rockets.Engine.GlobalLogic;
+import com.genife.adventbombs.Rockets.Engine.RocketLogic;
 import com.genife.adventbombs.Rockets.Engine.RocketState;
 import com.genife.adventbombs.SoundUtils.PlaySound;
 import com.genife.adventbombs.Tools.getNearlyBlocks;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import static com.genife.adventbombs.Managers.ConfigManager.MESSAGE_PREFIX;
 import static com.genife.adventbombs.Managers.ConfigManager.SCULK_ROCKET_DETONATED_MESSAGE;
 
-public class SculkLogic extends GlobalLogic {
+public class SculkLogic extends RocketLogic {
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 

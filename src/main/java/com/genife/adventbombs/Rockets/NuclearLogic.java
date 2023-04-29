@@ -3,7 +3,7 @@ package com.genife.adventbombs.Rockets;
 import com.genife.adventbombs.AdventBombs;
 import com.genife.adventbombs.Effects.AcidRain;
 import com.genife.adventbombs.Effects.Radiation;
-import com.genife.adventbombs.Rockets.Engine.GlobalLogic;
+import com.genife.adventbombs.Rockets.Engine.RocketLogic;
 import com.genife.adventbombs.Rockets.Engine.RocketState;
 import com.genife.adventbombs.SoundUtils.PlaySound;
 import net.kyori.adventure.text.Component;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
-public class NuclearLogic extends GlobalLogic {
+public class NuclearLogic extends RocketLogic {
     private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 
