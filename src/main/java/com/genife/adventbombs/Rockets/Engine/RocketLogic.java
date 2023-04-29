@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
-public abstract class RocketLogic extends Rocket implements Selfguided, Soared, Explodable {
+public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
     private final AdventBombs instance = AdventBombs.getInstance();
 
     public RocketLogic(Player rocketSender, Location targetLocation) {
@@ -69,7 +69,6 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared, 
         addDuration();
     }
 
-    public abstract void explode();
 
     // эта функция отправляет оповещение, если прилетела последняя оставшаяся ракета
     // (RocketRunnable ещё не успел удалить ракету из списка)

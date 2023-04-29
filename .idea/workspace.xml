@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3669251f-590f-41c2-8137-6b41866e78a3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Nuclear_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/nuclearrocket.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/nuclearrockettest.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Commands/PassConversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Commands/PassConversation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/Rocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/engine/Rocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/RocketLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/engine/GlobalLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Runnables/RocketRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Runnables/RocketRunnable.java" afterDir="false" />
+    <list default="true" id="3669251f-590f-41c2-8137-6b41866e78a3" name="Changes" comment="Чуть импрувов">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/Engine/Explodable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/Engine/RocketLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/genife/adventbombs/Rockets/Engine/RocketLogic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,13 +39,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Важные файлы"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Важные файлы&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -69,6 +55,42 @@
       <option name="presentableId" value="Default" />
       <updated>1682769775208</updated>
     </task>
+    <task id="LOCAL-00001" summary="Ракеты по отдельным классам">
+      <created>1682772149677</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682772149677</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Переименовал клас">
+      <created>1682772594821</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682772594821</updated>
+    </task>
+    <task id="LOCAL-00003" summary="4.7">
+      <created>1682772664531</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682772664531</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Чуть импрувов">
+      <created>1682774235131</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682774235131</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ракеты по отдельным классам" />
+    <MESSAGE value="Переименовал клас" />
+    <MESSAGE value="4.7" />
+    <MESSAGE value="Чуть импрувов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Чуть импрувов" />
   </component>
 </project>
