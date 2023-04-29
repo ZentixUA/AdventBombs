@@ -13,7 +13,6 @@ import org.bukkit.util.Vector;
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public abstract class RocketLogic extends Rocket implements Selfguided, Soared, Explodable {
-
     private final AdventBombs instance = AdventBombs.getInstance();
 
     public RocketLogic(Player rocketSender, Location targetLocation) {

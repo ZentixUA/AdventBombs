@@ -34,6 +34,8 @@ public abstract class Rocket {
 
     public abstract void move();
 
+    public abstract void explode();
+
     public Location getRocketLocation() {
         return rocketLocation;
     }
