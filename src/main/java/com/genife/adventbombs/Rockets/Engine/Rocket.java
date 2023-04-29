@@ -1,6 +1,5 @@
-package com.genife.adventbombs.Rockets;
+package com.genife.adventbombs.Rockets.Engine;
 
-import com.genife.adventbombs.Rockets.engine.RocketState;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

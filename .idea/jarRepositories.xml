@@ -2,24 +2,9 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="jorel" />
-      <option name="name" value="jorel" />
-      <option name="url" value="https://repo.jorel.dev/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="sonatype" />
-      <option name="name" value="sonatype" />
-      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="enginehub-maven" />
-      <option name="name" value="enginehub-maven" />
-      <option name="url" value="https://maven.enginehub.org/repo/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="papermc-repo" />
@@ -35,11 +20,6 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="commandapi" />
-      <option name="name" value="commandapi" />
-      <option name="url" value="https://raw.githubusercontent.com/JorelAli/CommandAPI/mvn-repo/" />
     </remote-repository>
   </component>
 </project>

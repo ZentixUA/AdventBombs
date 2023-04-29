@@ -7,11 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="AdventBombs" />
-        <module name="nuclearrocket" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Nuclear" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

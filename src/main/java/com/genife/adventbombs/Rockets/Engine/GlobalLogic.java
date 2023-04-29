@@ -1,41 +1,25 @@
-package com.genife.adventbombs.Rockets;
+package com.genife.adventbombs.Rockets.Engine;
 
 import com.genife.adventbombs.AdventBombs;
-import com.genife.adventbombs.Effects.AcidRain;
-import com.genife.adventbombs.Effects.Radiation;
-import com.genife.adventbombs.Effects.Sculk;
-import com.genife.adventbombs.Rockets.engine.Explodable;
-import com.genife.adventbombs.Rockets.engine.RocketState;
-import com.genife.adventbombs.Rockets.engine.Selfguided;
-import com.genife.adventbombs.Rockets.engine.Soared;
 import com.genife.adventbombs.Runnables.RocketRunnable;
 import com.genife.adventbombs.SoundUtils.PlaySound;
-import com.genife.adventbombs.Tools.getNearlyBlocks;
 import net.kyori.adventure.text.Component;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
-public class RocketLogic extends Rocket implements Selfguided, Soared, Explodable {
-    private final String rocketType;
-    private final int explosionPower;
+public abstract class GlobalLogic extends Rocket implements Selfguided, Soared, Explodable {
+
     private final AdventBombs instance = AdventBombs.getInstance();
 
-    public RocketLogic(Player rocketSender, String rocketType, Location targetLocation, int explosionPower) {
+    public GlobalLogic(Player rocketSender, Location targetLocation) {
         super(rocketSender, targetLocation);
-        this.explosionPower = explosionPower;
-        this.rocketType = rocketType;
     }
 
-    @Override
     public void move() {
         getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
         getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
@@ -86,76 +70,14 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
         addDuration();
     }
 
-    @Override
-    public void explode() {
-        setState(RocketState.DEAD);
-
-        if (Objects.equals(rocketType, "nuclear")) {
-            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + NUCLEAR_ROCKET_DETONATED_MESSAGE));
-        } else if (Objects.equals(rocketType, "sculk")) {
-            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + SCULK_ROCKET_DETONATED_MESSAGE));
-        }
-
-        activeRocketChecker();
-
-        World world = getRocketWorld();
-        Location finalRocketLocation = getRocketLocation();
-
-        if (Objects.equals(rocketType, "nuclear")) {
-            // + 2 к высоте ибо взрыв с высокой вероятностью без этого почти не поразит игрока
-            world.createExplosion(finalRocketLocation.clone().add(0, 2, 0), explosionPower, true, true);
-            world.spawnParticle(Particle.EXPLOSION_LARGE, finalRocketLocation, 10);
-
-            int soundPlayRange = explosionPower * 8;
-
-            new PlaySound(ROCKET_DETONATE_SOUND, soundPlayRange, finalRocketLocation);
-
-            catastrophe(finalRocketLocation);
-
-        } else if (Objects.equals(rocketType, "sculk")) {
-            // ставим скалковые блоки
-            Location catalystLocation = finalRocketLocation.clone();
-
-            while (catalystLocation.getBlock().isLiquid()) {
-                catalystLocation.add(0, -1, 0);
-            }
-
-            ArrayList<Block> nearlyBlocks = new getNearlyBlocks().getBlocks(catalystLocation.getBlock(), 1);
-
-            for (Block block : nearlyBlocks) {
-                if (!block.isLiquid() && !block.getType().isAir()) {
-                    block.setType(Material.SCULK);
-                }
-            }
-
-            catalystLocation.getBlock().setType(Material.SCULK_CATALYST);
-
-            // спавним вардена
-            Location wardenLocation = catalystLocation.clone().add(0, 2, 0);
-            world.spawnEntity(wardenLocation, EntityType.WARDEN);
-
-            // проигрываем звук активации портала в Энд всем в радиусе взрыва (мощности)
-            new PlaySound("minecraft:block.end_portal.spawn", explosionPower, wardenLocation);
-
-            // запускаем раннаблу спавна лисиц для распространения
-            BukkitRunnable task = new Sculk(catalystLocation, explosionPower);
-            task.runTaskTimer(instance, 0, 1);
-        }
-    }
+    public abstract void explode();
 
     // эта функция отправляет оповещение, если прилетела последняя оставшаяся ракета
     // (RocketRunnable ещё не успел удалить ракету из списка)
-    private void activeRocketChecker() {
+    public void activeRocketChecker() {
         if (RocketRunnable.getActiveRocketCount() == 1) {
             Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_STOP_BROADCAST_MESSAGE));
             instance.getAlarmManager().stopSirenTasks();
-        }
-    }
-
-    private void catastrophe(Location explosionCenter) {
-        new Radiation(explosionCenter, explosionPower).runTask(instance);
-        if (explosionPower >= 50) {
-            new AcidRain(getRocketWorld()).runTaskLater(instance, ACID_RAIN_DELAY * 20);
         }
     }
 
@@ -163,7 +85,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
     //------------------------------Вспомогательные функции движения ракеты-------------------------------
 
 
-    @Override
     public void moveUp() {
         Vector dir = getRocketLocation().getDirection();
         dir.multiply(MOVE_UP_SPEED);
@@ -171,7 +92,6 @@ public class RocketLogic extends Rocket implements Selfguided, Soared, Explodabl
         getRocketLocation().add(dir);
     }
 
-    @Override
     public void moveWithY() {
         if (getState() != RocketState.MOVING_WITH_Y) {
             setState(RocketState.MOVING_WITH_Y);

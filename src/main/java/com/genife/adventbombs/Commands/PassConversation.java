@@ -2,7 +2,8 @@ package com.genife.adventbombs.Commands;
 
 import com.genife.adventbombs.AdventBombs;
 import com.genife.adventbombs.Managers.PasswordManager;
-import com.genife.adventbombs.Rockets.RocketLogic;
+import com.genife.adventbombs.Rockets.NuclearLogic;
+import com.genife.adventbombs.Rockets.SculkLogic;
 import com.genife.adventbombs.Runnables.RocketRunnable;
 import com.genife.adventbombs.SoundUtils.PlaySound;
 import net.kyori.adventure.text.Component;
@@ -71,7 +72,14 @@ public class PassConversation extends StringPrompt {
         World senderWorld = rocketSender.getWorld();
         Location targetLocation = senderWorld.getHighestBlockAt(cordsX, cordsZ).getLocation();
 
-        RocketRunnable task = new RocketRunnable(new RocketLogic(rocketSender, rocketType, targetLocation, explosionPower));
+        RocketRunnable task;
+
+        if (rocketType.equals("nuclear")) {
+            task = new RocketRunnable(new NuclearLogic(rocketSender, targetLocation, explosionPower));
+        } else {
+            task = new RocketRunnable(new SculkLogic(rocketSender, targetLocation, explosionPower));
+        }
+
         task.runTaskTimer(instance, 0, 1);
     }
 
