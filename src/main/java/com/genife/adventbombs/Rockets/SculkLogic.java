@@ -22,12 +22,10 @@ import static com.genife.adventbombs.Managers.ConfigManager.MESSAGE_PREFIX;
 import static com.genife.adventbombs.Managers.ConfigManager.SCULK_ROCKET_DETONATED_MESSAGE;
 
 public class SculkLogic extends RocketLogic {
-    private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 
     public SculkLogic(Player rocketSender, Location targetLocation, int explosionPower) {
-        super(rocketSender, targetLocation);
-        this.explosionPower = explosionPower;
+        super(rocketSender, targetLocation, explosionPower);
     }
 
     public void explode() {
@@ -67,10 +65,10 @@ public class SculkLogic extends RocketLogic {
         world.spawnEntity(wardenLocation, EntityType.WARDEN);
 
         // проигрываем звук активации портала в Энд всем в радиусе взрыва (мощности)
-        new PlaySound("minecraft:block.end_portal.spawn", explosionPower, wardenLocation);
+        new PlaySound("minecraft:block.end_portal.spawn", getExplosionPower(), wardenLocation);
 
         // запускаем раннаблу спавна лисиц для распространения
-        BukkitRunnable task = new Sculk(catalystLocation, explosionPower);
+        BukkitRunnable task = new Sculk(catalystLocation, getExplosionPower());
         task.runTaskTimer(instance, 0, 1);
     }
 }

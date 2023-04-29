@@ -16,12 +16,10 @@ import org.bukkit.entity.Player;
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public class NuclearLogic extends RocketLogic {
-    private final int explosionPower;
     private final AdventBombs instance = AdventBombs.getInstance();
 
     public NuclearLogic(Player rocketSender, Location targetLocation, int explosionPower) {
-        super(rocketSender, targetLocation);
-        this.explosionPower = explosionPower;
+        super(rocketSender, targetLocation, explosionPower);
     }
 
     public void explode() {
@@ -40,10 +38,10 @@ public class NuclearLogic extends RocketLogic {
         Location finalRocketLocation = getRocketLocation();
 
         // + 2 к высоте ибо взрыв с высокой вероятностью без этого почти не поразит игрока
-        world.createExplosion(finalRocketLocation.clone().add(0, 2, 0), explosionPower, true, true);
+        world.createExplosion(finalRocketLocation.clone().add(0, 2, 0), getExplosionPower(), true, true);
         world.spawnParticle(Particle.EXPLOSION_LARGE, finalRocketLocation, 10);
 
-        int soundPlayRange = explosionPower * 8;
+        int soundPlayRange = getExplosionPower() * 8;
 
         new PlaySound(ROCKET_DETONATE_SOUND, soundPlayRange, finalRocketLocation);
 
@@ -51,8 +49,8 @@ public class NuclearLogic extends RocketLogic {
     }
 
     private void catastrophe(Location explosionCenter) {
-        new Radiation(explosionCenter, explosionPower).runTask(instance);
-        if (explosionPower >= 50) {
+        new Radiation(explosionCenter, getExplosionPower()).runTask(instance);
+        if (getExplosionPower() >= 50) {
             new AcidRain(getRocketWorld()).runTaskLater(instance, ACID_RAIN_DELAY * 20);
         }
     }

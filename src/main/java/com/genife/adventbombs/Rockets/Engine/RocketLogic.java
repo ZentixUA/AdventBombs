@@ -15,8 +15,8 @@ import static com.genife.adventbombs.Managers.ConfigManager.*;
 public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
     private final AdventBombs instance = AdventBombs.getInstance();
 
-    public RocketLogic(Player rocketSender, Location targetLocation) {
-        super(rocketSender, targetLocation);
+    public RocketLogic(Player rocketSender, Location targetLocation, int explosionPower) {
+        super(rocketSender, targetLocation, explosionPower);
     }
 
     public void move() {

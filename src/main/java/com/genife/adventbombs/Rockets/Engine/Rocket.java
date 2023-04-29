@@ -11,11 +11,13 @@ public abstract class Rocket {
     private Location targetLocation;
     private World rocketWorld;
     private int duration;
+    private int explosionPower;
     private RocketState state;
 
-    public Rocket(Player sender, Location targetLocation) {
+    public Rocket(Player sender, Location targetLocation, int explosionPower) {
         setRocketLocation(sender.getLocation());
         setTargetLocation(targetLocation);
+        setExplosionPower(explosionPower);
         setRocketWorld(sender.getWorld());
         setDuration(0);
     }
@@ -86,5 +88,13 @@ public abstract class Rocket {
 
     public void addDuration() {
         this.setDuration(getDuration() + 1);
+    }
+
+    public int getExplosionPower() {
+        return explosionPower;
+    }
+
+    public void setExplosionPower(int explosionPower) {
+        this.explosionPower = explosionPower;
     }
 }
