@@ -7,30 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RocketRunnable extends BukkitRunnable {
-    private static final List<RocketRunnable> activeRockets = new ArrayList<>();
-    private Rocket rocket;
+    private static final List<Rocket> activeRockets = new ArrayList<>();
+    private final Rocket rocket;
 
     public RocketRunnable(Rocket rocket) {
-        setRocket(rocket);
-        activeRockets.add(this); // добавляем созданную ракету в список активных ракет
+        this.rocket = rocket;
+        activeRockets.add(rocket); // добавляем созданную ракету в список активных ракет
     }
 
     public static boolean isListEmpty() {
-        return activeRockets.isEmpty(); // возвращаем, пустой ли список
+        return activeRockets.isEmpty(); // возвращаем true, если список пуст
     }
 
     @Override
     public void run() {
         if (rocket.isDead()) {
+            activeRockets.remove(rocket); // убираем ракету из списка активных ракет
             this.cancel();
-            activeRockets.remove(this); // убираем ракету из списка активных ракет
             return;
         }
         rocket.move();
     }
-
-    private void setRocket(Rocket rocket) {
-        this.rocket = rocket;
-    }
-
 }
