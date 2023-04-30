@@ -15,8 +15,8 @@ public class RocketRunnable extends BukkitRunnable {
         activeRockets.add(this); // добавляем созданную ракету в список активных ракет
     }
 
-    public static int getActiveRocketCount() {
-        return activeRockets.size(); // возвращаем размер списка активных ракет
+    public static boolean isListEmpty() {
+        return activeRockets.isEmpty(); // возвращаем, пустой ли список
     }
 
     @Override

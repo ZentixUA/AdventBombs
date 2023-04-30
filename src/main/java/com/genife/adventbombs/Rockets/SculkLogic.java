@@ -38,8 +38,6 @@ public class SculkLogic extends RocketLogic {
 
         Bukkit.broadcast(Component.text(MESSAGE_PREFIX + SCULK_ROCKET_DETONATED_MESSAGE));
 
-        activeRocketChecker();
-
         World world = getRocketWorld();
         Location finalRocketLocation = getRocketLocation();
 

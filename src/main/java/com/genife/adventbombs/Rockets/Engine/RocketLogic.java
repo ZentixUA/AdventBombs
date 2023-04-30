@@ -1,10 +1,6 @@
 package com.genife.adventbombs.Rockets.Engine;
 
-import com.genife.adventbombs.AdventBombs;
-import com.genife.adventbombs.Runnables.RocketRunnable;
 import com.genife.adventbombs.SoundUtils.PlaySound;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -13,7 +9,6 @@ import org.bukkit.util.Vector;
 import static com.genife.adventbombs.Managers.ConfigManager.*;
 
 public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
-    private final AdventBombs instance = AdventBombs.getInstance();
 
     public RocketLogic(Player rocketSender, Location targetLocation, int explosionPower) {
         super(rocketSender, targetLocation, explosionPower);
@@ -67,16 +62,6 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
             }
         }
         addDuration();
-    }
-
-
-    // эта функция отправляет оповещение, если прилетела последняя оставшаяся ракета
-    // (RocketRunnable ещё не успел удалить ракету из списка)
-    public void activeRocketChecker() {
-        if (RocketRunnable.getActiveRocketCount() == 1) {
-            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_STOP_BROADCAST_MESSAGE));
-            instance.getAlarmManager().stopSirenTasks();
-        }
     }
 
 

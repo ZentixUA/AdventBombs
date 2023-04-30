@@ -91,6 +91,7 @@ public class PassConversation extends StringPrompt {
         BukkitRunnable sirenTask = new BukkitRunnable() {
             @Override
             public void run() {
+                if (alarmChecker()) return;
                 List<Location> allAlarms = instance.getAlarmManager().getAlarmsLocations();
                 for (Location location : allAlarms) {
                     new PlaySound(ALARM_SOUND, 200, location);
@@ -114,5 +115,15 @@ public class PassConversation extends StringPrompt {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), INVALID_PASS_BROADCAST_SOUND, 0.6f, 1.0f);
         }
+    }
+
+    // эта функция отправляет оповещение, если тревога кончилась
+    private boolean alarmChecker() {
+        if (RocketRunnable.isListEmpty()) {
+            Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_STOP_BROADCAST_MESSAGE));
+            instance.getAlarmManager().stopSirenTasks();
+            return true;
+        }
+        return false;
     }
 }
