@@ -59,11 +59,7 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
             if (distanceToTargetLoc <= DISTANCE_TO_MOVE_ROCKET_WITH_Y || (differenceX <= FLYING_ROCKET_SPEED && differenceZ <= FLYING_ROCKET_SPEED)) {
                 moveWithY();
             } else {
-                // в ином (нормальном) случае двигаемся по одной высоте - MIN_HEIGHT:
-                if (getState() != RocketState.FLYING) {
-                    setState(RocketState.FLYING);
-                }
-                getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
+                moveWithoutY();
             }
         }
         addDuration();
@@ -81,11 +77,19 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
     }
 
     public void moveWithY() {
+        // Двигаем ракету к цели с учётом Y
         if (getState() != RocketState.MOVING_WITH_Y) {
             setState(RocketState.MOVING_WITH_Y);
         }
-        // двигаем ракету к цели
         getRocketLocation().add(findPath(true).multiply(MOVE_WITH_Y_SPEED));
+    }
+
+    public void moveWithoutY() {
+        // в ином (нормальном) случае двигаемся по одной высоте - MIN_HEIGHT
+        if (getState() != RocketState.FLYING) {
+            setState(RocketState.FLYING);
+        }
+        getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
     }
 
     public Vector findPath(boolean includeY) {

@@ -4,4 +4,6 @@ public interface Soared {
     void moveUp();
 
     void moveWithY();
+
+    void moveWithoutY();
 }
