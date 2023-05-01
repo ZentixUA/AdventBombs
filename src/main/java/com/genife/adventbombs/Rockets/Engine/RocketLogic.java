@@ -50,8 +50,8 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
             new PlaySound(ROCKET_FLYING_SOUND, 316, getRocketLocation());
 
             // Вычисляем отклонение координат X, Z между локациями ракеты и цели
-            int differenceX = Math.abs(getRocketLocation().getBlockX() - getTargetLocation().getBlockX());
-            int differenceZ = Math.abs(getRocketLocation().getBlockZ() - getTargetLocation().getBlockZ());
+            double differenceX = Math.abs(getRocketLocation().getX() - getTargetLocation().getX());
+            double differenceZ = Math.abs(getRocketLocation().getZ() - getTargetLocation().getZ());
 
             // Проверяем, меньше ли наша дистанция дистанции для движения с учётом Y
             // Ещё проверяем, совпадают ли примерно X и Z, если да - начинаем движение с учётом Y до того момента,
