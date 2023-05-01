@@ -15,9 +15,14 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
     }
 
     public void move() {
+        // Обновляем целевую локацию с актуальным Y
+        getTargetLocation().setY(getRocketWorld().getHighestBlockYAt(getTargetLocation()));
+
+        // Спавним эффекты
         getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
         getRocketWorld().spawnParticle(Particle.LAVA, getRocketLocation(), 0);
-        // получаем дистанцию от ракеты к целевой локации
+
+        // Получаем дистанцию от ракеты к целевой локации
         double distanceToTargetLoc = getRocketLocation().distance(getTargetLocation());
 
         // Проверка на совпадение одно из условий для детонации. Такое сравнивание
@@ -79,8 +84,6 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
         if (getState() != RocketState.MOVING_WITH_Y) {
             setState(RocketState.MOVING_WITH_Y);
         }
-        // обновляем целевую локацию с актуальным Y
-        getTargetLocation().setY(getRocketWorld().getHighestBlockYAt(getTargetLocation()));
         // двигаем ракету к цели
         getRocketLocation().add(findPath(true).multiply(MOVE_WITH_Y_SPEED));
     }
