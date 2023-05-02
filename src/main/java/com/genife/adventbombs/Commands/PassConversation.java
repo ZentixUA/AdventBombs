@@ -102,7 +102,7 @@ public class PassConversation extends StringPrompt {
         if (instance.getAlarmManager().isSirenTasksEmpty()) {
             Bukkit.broadcast(Component.text(MESSAGE_PREFIX + ALARM_START_BROADCAST_MESSAGE));
             instance.getAlarmManager().addSirenTask(sirenTask);
-            sirenTask.runTaskTimer(instance, 0, 260); // запускаем задачу с интервалом 13 секунд
+            sirenTask.runTaskTimer(instance, 0, 20 * ALARM_SOUND_PLAY_DELAY); // запускаем задачу с интервалом 13 секунд
         }
     }
 

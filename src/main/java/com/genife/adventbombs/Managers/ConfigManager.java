@@ -14,16 +14,18 @@ public class ConfigManager {
     public static int MAX_FLY_DURATION;
     public static String NUCLEAR_START_PASS;
     public static String SCULK_START_PASS;
-    public static Integer ROCKET_USAGE_COOLDOWN;
+    public static int ROCKET_USAGE_COOLDOWN;
 
-    public static Integer RADIATION_EFFECT_DELAY;
-    public static Integer RADIATION_DURATION;
-    public static Integer ACID_RAIN_DELAY;
-    public static Integer ACID_RAIN_DURATION;
+    public static int RADIATION_EFFECT_DELAY;
+    public static int RADIATION_DURATION;
+    public static int ACID_RAIN_DELAY;
+    public static int ACID_RAIN_DURATION;
 
-    public static Integer BLOCKING_DURATION;
+    public static int BLOCKING_DURATION;
 
     public static String ALARM_PLACE_WORD;
+    public static long ALARM_SOUND_PLAY_DELAY;
+
 
     public static String MESSAGE_PREFIX;
     public static String RELOAD_MESSAGE;
@@ -100,6 +102,7 @@ public class ConfigManager {
         config.addDefault("blocking.duration", 14400);
 
         config.addDefault("alarm.place_word", "[сирена]");
+        config.addDefault("alarm.sound_play_delay", 13);
 
         config.addDefault("messages.prefix", "§3[AdventBombs] ");
 
@@ -175,6 +178,7 @@ public class ConfigManager {
         BLOCKING_DURATION = config.getInt("blocking.duration");
 
         ALARM_PLACE_WORD = config.getString("alarm.place_word");
+        ALARM_SOUND_PLAY_DELAY = config.getLong("alarm.sound_play_delay");
 
         MESSAGE_PREFIX = config.getString("messages.prefix");
         RELOAD_MESSAGE = config.getString("messages.commands.reload");
