@@ -102,7 +102,7 @@ public class ConfigManager {
         config.addDefault("blocking.duration", 14400);
 
         config.addDefault("alarm.place_word", "[сирена]");
-        config.addDefault("alarm.sound_play_delay", 13);
+        config.addDefault("alarm.sound_play_interval", 13);
 
         config.addDefault("messages.prefix", "§3[AdventBombs] ");
 
