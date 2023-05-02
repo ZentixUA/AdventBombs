@@ -24,7 +24,7 @@ public class ConfigManager {
     public static int BLOCKING_DURATION;
 
     public static String ALARM_PLACE_WORD;
-    public static long ALARM_SOUND_PLAY_DELAY;
+    public static long ALARM_SOUND_PLAY_INTERVAL;
 
 
     public static String MESSAGE_PREFIX;
@@ -102,7 +102,7 @@ public class ConfigManager {
         config.addDefault("blocking.duration", 14400);
 
         config.addDefault("alarm.place_word", "[сирена]");
-        config.addDefault("alarm.sound_play_delay", 13);
+        config.addDefault("alarm.sound_play_interval", 13);
 
         config.addDefault("messages.prefix", "§3[AdventBombs] ");
 
@@ -178,7 +178,7 @@ public class ConfigManager {
         BLOCKING_DURATION = config.getInt("blocking.duration");
 
         ALARM_PLACE_WORD = config.getString("alarm.place_word");
-        ALARM_SOUND_PLAY_DELAY = config.getLong("alarm.sound_play_delay");
+        ALARM_SOUND_PLAY_INTERVAL = config.getLong("alarm.sound_play_interval");
 
         MESSAGE_PREFIX = config.getString("messages.prefix");
         RELOAD_MESSAGE = config.getString("messages.commands.reload");
