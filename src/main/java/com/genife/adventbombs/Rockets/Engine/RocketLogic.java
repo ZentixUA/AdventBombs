@@ -16,7 +16,16 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
 
     public void move() {
         // Обновляем целевую локацию с актуальным Y
-        getTargetLocation().setY(getRocketWorld().getHighestBlockYAt(getTargetLocation()));
+        int highestBlockY = getRocketWorld().getHighestBlockYAt(getTargetLocation());
+        if (getTargetLocation().getY() != highestBlockY) {
+            getTargetLocation().setY(highestBlockY);
+
+            if (isFlying()) {
+                setVector(findPath(false));
+            } else if (isMovingWithY()) {
+                setVector(findPath(true));
+            }
+        }
 
         // Спавним эффекты
         getRocketWorld().spawnParticle(Particle.FIREWORKS_SPARK, getRocketLocation(), 0);
@@ -76,20 +85,22 @@ public abstract class RocketLogic extends Rocket implements Selfguided, Soared {
         getRocketLocation().add(dir);
     }
 
-    public void moveWithY() {
-        // Двигаем ракету к цели с учётом Y
-        if (getState() != RocketState.MOVING_WITH_Y) {
-            setState(RocketState.MOVING_WITH_Y);
-        }
-        getRocketLocation().add(findPath(true).multiply(MOVE_WITH_Y_SPEED));
-    }
-
     public void moveWithoutY() {
         // в ином (нормальном) случае двигаемся по одной высоте - MIN_HEIGHT
         if (getState() != RocketState.FLYING) {
             setState(RocketState.FLYING);
+            setVector(findPath(false));
         }
-        getRocketLocation().add(findPath(false).multiply(FLYING_ROCKET_SPEED));
+        getRocketLocation().add(getVector().clone().multiply(FLYING_ROCKET_SPEED));
+    }
+
+    public void moveWithY() {
+        // Двигаем ракету к цели с учётом Y
+        if (getState() != RocketState.MOVING_WITH_Y) {
+            setState(RocketState.MOVING_WITH_Y);
+            setVector(findPath(true));
+        }
+        getRocketLocation().add(getVector().clone().multiply(MOVE_WITH_Y_SPEED));
     }
 
     public Vector findPath(boolean includeY) {

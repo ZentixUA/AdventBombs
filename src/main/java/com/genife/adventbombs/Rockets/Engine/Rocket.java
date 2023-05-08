@@ -3,6 +3,7 @@ package com.genife.adventbombs.Rockets.Engine;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import static com.genife.adventbombs.Managers.ConfigManager.MAX_FLY_DURATION;
 
@@ -10,6 +11,7 @@ public abstract class Rocket {
     private Location rocketLocation;
     private Location targetLocation;
     private World rocketWorld;
+    private Vector vector;
     private int duration;
     private int explosionPower;
     private RocketState state;
@@ -64,6 +66,14 @@ public abstract class Rocket {
 
     public void setRocketWorld(World rocketWorld) {
         this.rocketWorld = rocketWorld;
+    }
+
+    public Vector getVector() {
+        return vector;
+    }
+
+    public void setVector(Vector vector) {
+        this.vector = vector;
     }
 
     public RocketState getState() {
