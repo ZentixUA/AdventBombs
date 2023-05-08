@@ -30,7 +30,7 @@ public class SculkLogic extends RocketLogic {
 
     public void explode() {
         // Если ракета уже взорвана и мы каким-то образом снова пытаемся вызвать функцию - ничего не делаем
-        if (getState() == RocketState.DEAD) {
+        if (isDead()) {
             return;
         }
 
