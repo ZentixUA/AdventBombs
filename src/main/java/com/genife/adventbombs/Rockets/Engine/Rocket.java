@@ -56,8 +56,8 @@ public abstract class Rocket {
         return targetLocation;
     }
 
-    public void setTargetLocation(Location target_location) {
-        this.targetLocation = target_location;
+    public void setTargetLocation(Location targetLocation) {
+        this.targetLocation = targetLocation;
     }
 
     public boolean inBlock() {
